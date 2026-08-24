@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color"
+content="#02030a">
 
 <title>ORBIT — Beyond the Ordinary</title>
 
 <style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
 *{
     margin:0;
     padding:0;
@@ -19,101 +31,176 @@ html{
 
 body{
     background:#02030a;
-    color:white;
-    font-family:Arial,sans-serif;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
     overflow-x:hidden;
 }
 
-/* SPACE BACKGROUND */
+button,
+input{
+    font-family:inherit;
+}
+
+/* =====================================================
+   SPACE BACKGROUND
+===================================================== */
+
 .space{
     position:fixed;
     inset:0;
     z-index:-10;
     overflow:hidden;
+
     background:
-        radial-gradient(circle at 50% 45%,
-        #16002c 0%,
-        #050713 25%,
-        #02030a 60%,
-        #000 100%);
+    radial-gradient(
+        circle at 50% 45%,
+        #17002d 0%,
+        #070918 25%,
+        #02030a 65%,
+        #000 100%
+    );
 }
 
-/* BLACK HOLE */
-.blackhole{
-    position:absolute;
-    width:330px;
-    height:330px;
-    left:50%;
-    top:45%;
-    transform:translate(-50%,-50%);
-    border-radius:50%;
-    background:#000;
-    box-shadow:
-        0 0 40px #7b2cff,
-        0 0 90px #4314a8,
-        0 0 160px rgba(0,150,255,.25);
-}
+/* =====================================================
+   STARS
+===================================================== */
 
-.ring{
-    position:absolute;
-    width:500px;
-    height:180px;
-    left:50%;
-    top:45%;
-    transform:translate(-50%,-50%) rotate(-15deg);
-    border-radius:50%;
-    border:15px solid transparent;
-    border-top-color:#ff35d1;
-    border-bottom-color:#21d4ff;
-    box-shadow:
-        0 0 25px #ff35d1,
-        0 0 50px #21d4ff;
-    animation:spin 5s linear infinite;
-}
-
-@keyframes spin{
-    from{
-        transform:translate(-50%,-50%) rotate(0deg);
-    }
-    to{
-        transform:translate(-50%,-50%) rotate(360deg);
-    }
-}
-
-/* STARS */
 .star{
     position:absolute;
     width:2px;
     height:2px;
-    background:white;
     border-radius:50%;
-    animation:twinkle 2s infinite alternate;
+    background:#fff;
+
+    animation:
+    twinkle 2s infinite alternate;
 }
 
 @keyframes twinkle{
-    from{opacity:.2}
-    to{opacity:1}
+
+    from{
+        opacity:.15;
+        transform:scale(.7);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1.4);
+    }
+
 }
 
-/* NAVBAR */
+/* =====================================================
+   BLACK HOLE
+===================================================== */
+
+.blackhole{
+
+    position:absolute;
+
+    width:330px;
+    height:330px;
+
+    left:50%;
+    top:45%;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:#000;
+
+    box-shadow:
+    0 0 40px #7428ff,
+    0 0 90px #4013a5,
+    0 0 170px rgba(0,170,255,.25);
+}
+
+.ring{
+
+    position:absolute;
+
+    width:500px;
+    height:180px;
+
+    left:50%;
+    top:45%;
+
+    transform:
+    translate(-50%,-50%)
+    rotate(-15deg);
+
+    border-radius:50%;
+
+    border:15px solid transparent;
+
+    border-top-color:#ff35d1;
+    border-bottom-color:#21d4ff;
+
+    box-shadow:
+    0 0 25px #ff35d1,
+    0 0 50px #21d4ff;
+
+    animation:
+    spin 5s linear infinite;
+}
+
+@keyframes spin{
+
+    from{
+        transform:
+        translate(-50%,-50%)
+        rotate(0deg);
+    }
+
+    to{
+        transform:
+        translate(-50%,-50%)
+        rotate(360deg);
+    }
+
+}
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
 nav{
+
     position:fixed;
+
     top:0;
     left:0;
+
     width:100%;
+
     padding:18px 6%;
+
     display:flex;
+
     justify-content:space-between;
     align-items:center;
+
     background:rgba(0,0,0,.55);
+
     backdrop-filter:blur(15px);
-    border-bottom:1px solid rgba(255,255,255,.1);
-    z-index:100;
+
+    border-bottom:
+    1px solid rgba(255,255,255,.1);
+
+    z-index:1000;
 }
 
 .logo{
+
+    color:#fff;
+
+    text-decoration:none;
+
     font-size:25px;
+
     font-weight:900;
+
     letter-spacing:4px;
 }
 
@@ -121,32 +208,59 @@ nav{
     color:#40eaff;
 }
 
-nav a{
-    color:#bbb;
+.nav-links{
+
+    display:flex;
+
+    gap:20px;
+}
+
+.nav-links a{
+
+    color:#aaa;
+
     text-decoration:none;
-    margin-left:20px;
+
+    font-size:13px;
+
     transition:.3s;
 }
 
-nav a:hover{
+.nav-links a:hover{
     color:#40eaff;
 }
 
-/* HERO */
+/* =====================================================
+   HERO
+===================================================== */
+
 .hero{
+
     min-height:100vh;
+
     display:flex;
+
     flex-direction:column;
+
     justify-content:center;
+
     align-items:center;
+
     text-align:center;
-    padding:100px 20px 50px;
+
+    padding:
+    100px 20px 50px;
 }
 
 .hero h1{
-    font-size:clamp(60px,13vw,140px);
+
+    font-size:
+    clamp(60px,13vw,140px);
+
     letter-spacing:12px;
-    background:linear-gradient(
+
+    background:
+    linear-gradient(
         90deg,
         #fff,
         #35eaff,
@@ -154,496 +268,1136 @@ nav a:hover{
         #ff38d1,
         #fff
     );
+
     background-size:300%;
+
     -webkit-background-clip:text;
+
     color:transparent;
-    animation:gradient 6s linear infinite;
+
+    animation:
+    gradientMove 6s linear infinite;
 }
 
-@keyframes gradient{
+@keyframes gradientMove{
+
     to{
         background-position:300%;
     }
+
 }
 
 .hero p{
+
     max-width:650px;
+
     margin:25px auto;
+
     color:#9ca9bd;
+
     line-height:1.8;
 }
 
-.buttons{
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
-    justify-content:center;
-}
-
-button,
 .btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
     padding:14px 25px;
+
     border-radius:12px;
-    border:1px solid rgba(80,230,255,.4);
-    background:linear-gradient(
+
+    border:
+    1px solid rgba(80,230,255,.4);
+
+    background:
+    linear-gradient(
         135deg,
         #155cff,
         #923cff,
         #e62fc8
     );
-    color:white;
-    cursor:pointer;
+
+    color:#fff;
+
     text-decoration:none;
+
     font-weight:bold;
+
+    cursor:pointer;
+
     transition:.3s;
 }
 
-button:hover,
 .btn:hover{
-    transform:translateY(-5px) scale(1.04);
+
+    transform:
+    translateY(-5px)
+    scale(1.04);
+
     box-shadow:
-        0 10px 35px rgba(70,150,255,.4);
+    0 10px 35px
+    rgba(70,150,255,.4);
 }
 
-/* SECTIONS */
+/* =====================================================
+   GENERAL SECTION
+===================================================== */
+
 section{
-    padding:100px 7%;
+
+    padding:
+    100px 6%;
 }
 
-.title{
+.section-title{
+
     text-align:center;
-    margin-bottom:45px;
+
+    margin-bottom:40px;
 }
 
-.title h2{
-    font-size:45px;
+.section-title h2{
+
+    font-size:
+    clamp(32px,5vw,50px);
 }
 
-.title p{
+.section-title p{
+
     color:#78869b;
+
     margin-top:10px;
 }
 
-/* CARDS */
-.cards{
-    max-width:1100px;
+/* =====================================================
+   GAMES SECTION
+===================================================== */
+
+.games-section{
+
+    position:relative;
+
+    min-height:800px;
+}
+
+.games-panel{
+
+    max-width:1200px;
+
     margin:auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
 
-.card{
-    padding:30px;
-    min-height:200px;
-    border-radius:20px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.1);
-    backdrop-filter:blur(10px);
-    transition:.4s;
-}
-
-.card:hover{
-    transform:translateY(-10px);
-    border-color:#36dcff;
-    box-shadow:0 15px 45px rgba(20,200,255,.12);
-}
-
-.card h3{
-    margin:15px 0 10px;
-}
-
-.card p{
-    color:#8190a5;
-    line-height:1.7;
-}
-
-.icon{
-    font-size:35px;
-}
-
-/* TERMINAL */
-.terminal{
-    max-width:900px;
-    margin:auto;
     padding:25px;
+
+    border:
+    1px solid
+    rgba(255,255,255,.1);
+
+    border-radius:25px;
+
+    background:
+    rgba(255,255,255,.035);
+
+    backdrop-filter:blur(14px);
+
+    box-shadow:
+    0 20px 80px
+    rgba(0,0,0,.35);
+}
+
+/* =====================================================
+   GAME TOOLBAR
+===================================================== */
+
+.games-toolbar{
+
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    justify-content:space-between;
+
+    margin-bottom:25px;
+}
+
+.search-box{
+
+    flex:1;
+
+    min-width:220px;
+}
+
+.search-box input{
+
+    width:100%;
+
+    padding:14px 17px;
+
+    border-radius:12px;
+
+    border:
+    1px solid
+    rgba(90,220,255,.15);
+
+    background:
+    rgba(0,0,0,.4);
+
+    color:#fff;
+
+    outline:none;
+
+    transition:.3s;
+}
+
+.search-box input:focus{
+
+    border-color:#35dcff;
+
+    box-shadow:
+    0 0 25px
+    rgba(53,220,255,.1);
+}
+
+.filter-buttons{
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+}
+
+.filter-btn{
+
+    padding:
+    11px 15px;
+
+    border-radius:10px;
+
+    border:
+    1px solid
+    rgba(255,255,255,.1);
+
+    background:
+    rgba(255,255,255,.04);
+
+    color:#aaa;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.filter-btn:hover,
+.filter-btn.active{
+
+    color:#fff;
+
+    border-color:#38dfff;
+
+    background:
+    rgba(40,200,255,.1);
+
+    box-shadow:
+    0 0 20px
+    rgba(40,200,255,.08);
+}
+
+/* =====================================================
+   RANDOM BUTTON
+===================================================== */
+
+.random-area{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-bottom:30px;
+}
+
+/* =====================================================
+   GAME GRID
+===================================================== */
+
+.game-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(220px,1fr)
+    );
+
+    gap:18px;
+}
+
+/* =====================================================
+   GAME CARD
+===================================================== */
+
+.game-card{
+
+    position:relative;
+
+    min-height:300px;
+
+    padding:22px;
+
+    border-radius:20px;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,.065),
+        rgba(255,255,255,.025)
+    );
+
+    border:
+    1px solid
+    rgba(255,255,255,.1);
+
+    overflow:hidden;
+
+    transition:.4s;
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+.game-card:hover{
+
+    transform:
+    translateY(-9px);
+
+    border-color:
+    rgba(55,220,255,.35);
+
+    box-shadow:
+    0 20px 50px
+    rgba(0,0,0,.4),
+    0 0 30px
+    rgba(40,190,255,.08);
+}
+
+/* GAME IMAGE */
+
+.game-image{
+
+    height:130px;
+
+    border-radius:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:60px;
+
+    margin-bottom:18px;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(80,220,255,.2),
+        rgba(100,30,180,.15),
+        rgba(0,0,0,.4)
+    );
+
+    border:
+    1px solid
+    rgba(255,255,255,.08);
+}
+
+/* FAVORITE */
+
+.favorite{
+
+    position:absolute;
+
+    top:12px;
+    right:12px;
+
+    width:36px;
+    height:36px;
+
+    border-radius:50%;
+
+    border:
+    1px solid
+    rgba(255,255,255,.1);
+
+    background:
+    rgba(0,0,0,.5);
+
+    color:#777;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+    transition:.3s;
+}
+
+.favorite:hover{
+
+    transform:scale(1.1);
+
+    color:#ff4fd8;
+}
+
+.favorite.active{
+
+    color:#ff4fd8;
+
+    box-shadow:
+    0 0 20px
+    rgba(255,79,216,.25);
+}
+
+.game-card h3{
+
+    font-size:19px;
+
+    margin-bottom:8px;
+}
+
+.game-card p{
+
+    color:#7d8da3;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+    flex:1;
+}
+
+.game-info{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:
+    14px 0;
+
+    font-size:11px;
+
+    color:#63758c;
+}
+
+.game-category{
+
+    color:#4de7ff;
+}
+
+.launch-btn{
+
+    width:100%;
+
+    padding:12px;
+
+    border:0;
+
+    border-radius:10px;
+
+    color:#fff;
+
+    font-weight:bold;
+
+    background:
+    linear-gradient(
+        90deg,
+        #245cff,
+        #9a3dff,
+        #e638d1
+    );
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.launch-btn:hover{
+
+    transform:
+    translateY(-3px);
+
+    box-shadow:
+    0 8px 25px
+    rgba(100,80,255,.35);
+}
+
+/* =====================================================
+   NO RESULTS
+===================================================== */
+
+.no-results{
+
+    display:none;
+
+    text-align:center;
+
+    padding:60px 20px;
+
+    color:#65748a;
+}
+
+/* =====================================================
+   SYSTEM
+===================================================== */
+
+.terminal{
+
+    max-width:900px;
+
+    margin:auto;
+
+    padding:25px;
+
     background:#010207;
-    border:1px solid #173b55;
+
+    border:
+    1px solid #173b55;
+
     border-radius:18px;
+
     font-family:monospace;
+
     color:#55eaff;
-    box-shadow:0 0 40px rgba(30,200,255,.08);
+
+    box-shadow:
+    0 0 40px
+    rgba(30,200,255,.08);
 }
 
 #terminalText{
+
     line-height:2;
 }
 
-/* FOOTER */
+/* =====================================================
+   FOOTER
+===================================================== */
+
 footer{
-    padding:70px 20px 30px;
+
+    padding:
+    70px 20px 30px;
+
     text-align:center;
-    border-top:1px solid rgba(255,255,255,.1);
+
+    border-top:
+    1px solid
+    rgba(255,255,255,.1);
+
     background:#010207;
 }
 
 .footer-logo{
+
     font-size:30px;
+
     font-weight:bold;
+
     letter-spacing:6px;
+
     color:#40eaff;
 }
 
 footer p{
+
     color:#647286;
-    margin:20px 0;
+
+    margin:18px 0;
 }
 
-/* SCROLL TOP */
-#top{
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+
     position:fixed;
+
+    inset:0;
+
+    z-index:5000;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+    rgba(0,0,0,.8);
+
+    backdrop-filter:blur(10px);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.3s;
+}
+
+.modal.show{
+
+    opacity:1;
+
+    visibility:visible;
+}
+
+.modal-box{
+
+    width:
+    min(500px,100%);
+
+    padding:30px;
+
+    border-radius:22px;
+
+    border:
+    1px solid
+    rgba(70,220,255,.25);
+
+    background:
+    linear-gradient(
+        145deg,
+        #101426,
+        #03040b
+    );
+
+    box-shadow:
+    0 30px 100px
+    rgba(0,0,0,.6);
+
+    text-align:center;
+
+    transform:
+    scale(.9)
+    translateY(20px);
+
+    transition:.3s;
+}
+
+.modal.show .modal-box{
+
+    transform:
+    scale(1)
+    translateY(0);
+}
+
+.modal-icon{
+
+    font-size:70px;
+
+    margin-bottom:15px;
+}
+
+.modal-box h2{
+
+    margin-bottom:10px;
+}
+
+.modal-box p{
+
+    color:#8190a5;
+
+    line-height:1.7;
+
+    margin-bottom:25px;
+}
+
+.close-modal{
+
+    margin-top:10px;
+
+    padding:11px 20px;
+
+    border-radius:10px;
+
+    border:
+    1px solid
+    rgba(255,255,255,.1);
+
+    background:
+    rgba(255,255,255,.05);
+
+    color:#fff;
+
+    cursor:pointer;
+}
+
+/* =====================================================
+   TOP BUTTON
+===================================================== */
+
+#top{
+
+    position:fixed;
+
     right:20px;
     bottom:20px;
+
     width:45px;
     height:45px;
+
     border-radius:50%;
+
+    border:
+    1px solid
+    rgba(90,220,255,.3);
+
+    background:
+    rgba(10,15,30,.8);
+
+    color:#fff;
+
+    cursor:pointer;
+
     display:none;
-    z-index:99;
+
+    z-index:900;
 }
 
-/* MOBILE */
+/* =====================================================
+   MOBILE
+===================================================== */
+
 @media(max-width:700px){
 
     nav{
-        padding:15px 20px;
+
+        padding:
+        15px 20px;
     }
 
-    nav .links{
-        display:none;
+    .nav-links{
+
+        gap:10px;
     }
 
-    .blackhole{
-        width:220px;
-        height:220px;
+    .nav-links a{
+
+        font-size:10px;
+    }
+
+    .games-panel{
+
+        padding:15px;
+    }
+
+    .game-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+        gap:12px;
+    }
+
+    .game-card{
+
+        padding:14px;
+
+        min-height:270px;
+    }
+
+    .game-image{
+
+        height:100px;
+
+        font-size:45px;
+    }
+
+    .game-card h3{
+
+        font-size:15px;
+    }
+
+    .game-card p{
+
+        font-size:11px;
     }
 
     .ring{
+
         width:330px;
         height:120px;
     }
 
-    section{
-        padding:80px 20px;
+    .blackhole{
+
+        width:220px;
+        height:220px;
     }
 
-    .title h2{
-        font-size:34px;
-    }
 }
+
 </style>
+
 </head>
 
 <body>
 
-<!-- SPACE -->
+
+<!-- =====================================================
+     SPACE
+===================================================== -->
+
 <div class="space" id="space">
 
     <div class="ring"></div>
+
     <div class="blackhole"></div>
 
 </div>
 
-<!-- NAVBAR -->
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
 <nav>
 
-    <div class="logo">
+    <a href="#home" class="logo">
         ORB<span>I</span>T
-    </div>
+    </a>
 
-    <div class="links">
+    <div class="nav-links">
+
         <a href="#home">Home</a>
-        <a href="#features">Features</a>
+
+        <a href="#games">Games</a>
+
         <a href="#system">System</a>
-        <a href="#contact">Contact</a>
+
     </div>
 
 </nav>
 
-<!-- HERO -->
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
 <section class="hero" id="home">
 
     <h1>ORBIT</h1>
 
     <p>
-        Welcome to ORBIT — a futuristic digital space
-        designed beyond the ordinary.
-        Explore tools, systems, games and technology
-        inside a sci-fi universe.
+
+        Welcome to ORBIT — a futuristic digital
+        universe beyond the ordinary.
+
     </p>
 
-    <div class="buttons">
+    <a href="#games" class="btn">
 
-        <a class="btn" href="#features">
-            🚀 Explore ORBIT
-        </a>
+        🎮 Explore Games
 
-        <button onclick="launchSystem()">
-            ⚡ Launch System
-        </button>
-
-    </div>
+    </a>
 
 </section>
 
-<!-- FEATURES -->
-<section id="features">
 
-    <div class="title">
-        <h2>ORBIT FEATURES</h2>
-        <p>Explore the systems inside the station.</p>
+<!-- =====================================================
+     GAMES
+===================================================== -->
+
+<section class="games-section" id="games">
+
+    <div class="section-title">
+
+        <h2>ORBIT GAMES</h2>
+
+        <p>
+            Choose your mission and enter the digital universe.
+        </p>
+
     </div>
 
-    <div class="cards">
 
-        <div class="card">
-            <div class="icon">🎮</div>
-            <h3>Games</h3>
-            <p>
-                Explore the ORBIT gaming universe.
-            </p>
-            <button onclick="openFeature('Games')">
-                Open
-            </button>
+    <div class="games-panel">
+
+
+        <!-- TOOLBAR -->
+
+        <div class="games-toolbar">
+
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="gameSearch"
+                    placeholder="🔎 Search games..."
+                >
+
+            </div>
+
+
+            <div class="filter-buttons">
+
+                <button
+                    class="filter-btn active"
+                    data-category="All">
+
+                    All
+
+                </button>
+
+                <button
+                    class="filter-btn"
+                    data-category="Action">
+
+                    Action
+
+                </button>
+
+                <button
+                    class="filter-btn"
+                    data-category="Arcade">
+
+                    Arcade
+
+                </button>
+
+                <button
+                    class="filter-btn"
+                    data-category="Puzzle">
+
+                    Puzzle
+
+                </button>
+
+                <button
+                    class="filter-btn"
+                    data-category="Strategy">
+
+                    Strategy
+
+                </button>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <div class="icon">📝</div>
-            <h3>Notes</h3>
-            <p>
-                Create and manage your digital notes.
-            </p>
-            <button onclick="openFeature('Notes')">
-                Open
+
+        <!-- RANDOM -->
+
+        <div class="random-area">
+
+            <button
+                class="btn"
+                onclick="randomGame()">
+
+                🎲 Random Mission
+
             </button>
+
         </div>
 
-        <div class="card">
-            <div class="icon">🛰️</div>
-            <h3>Request</h3>
-            <p>
-                Send requests to the ORBIT system.
-            </p>
-            <button onclick="openFeature('Request')">
-                Open
-            </button>
-        </div>
 
-        <div class="card">
-            <div class="icon">🤖</div>
-            <h3>AI System</h3>
-            <p>
-                Interact with futuristic digital systems.
-            </p>
-            <button onclick="openFeature('AI System')">
-                Open
-            </button>
-        </div>
+        <!-- GAME GRID -->
 
-    </div>
+        <div
+            class="game-grid"
+            id="gameGrid">
 
-</section>
 
-<!-- SYSTEM -->
-<section id="system">
+            <!-- GAME 1 -->
 
-    <div class="title">
-        <h2>SYSTEM STATUS</h2>
-        <p>ORBIT central system monitoring.</p>
-    </div>
+            <div
+                class="game-card"
+                data-name="Space Runner"
+                data-category="Arcade">
 
-    <div class="terminal">
+                <button
+                    class="favorite"
+                    onclick="toggleFavorite(this,'Space Runner')">
 
-        <div id="terminalText"></div>
+                    ★
 
-    </div>
+                </button>
 
-</section>
+                <div class="game-image">
+                    🚀
+                </div>
 
-<!-- CONTACT -->
-<section id="contact">
+                <h3>Space Runner</h3>
 
-    <div class="title">
-        <h2>CONNECT</h2>
-        <p>Welcome to the next generation.</p>
-    </div>
+                <p>
+                    Navigate through deep space
+                    and survive the cosmic storm.
+                </p>
 
-    <div style="text-align:center">
+                <div class="game-info">
 
-        <button onclick="showMessage()">
-            🌌 Enter ORBIT
-        </button>
+                    <span class="game-category">
+                        Arcade
+                    </span>
 
-    </div>
+                    <span>
+                        ⭐ 4.8
+                    </span>
 
-</section>
+                </div>
 
-<!-- FOOTER -->
-<footer>
+                <button
+                    class="launch-btn"
+                    onclick="launchGame('Space Runner','🚀')">
 
-    <div class="footer-logo">
-        ORBIT
-    </div>
+                    🚀 LAUNCH
 
-    <p>
-        Beyond the Ordinary • Into the Unknown
-    </p>
+                </button>
 
-    <p>
-        © 2026 ORBIT. All systems operational.
-    </p>
+            </div>
 
-</footer>
 
-<button id="top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    ↑
-</button>
+            <!-- GAME 2 -->
 
-<script>
+            <div
+                class="game-card"
+                data-name="Galaxy Strike"
+                data-category="Action">
 
-/* CREATE STARS */
+                <button
+                    class="favorite"
+                    onclick="toggleFavorite(this,'Galaxy Strike')">
 
-const space = document.getElementById("space");
+                    ★
 
-for(let i=0;i<180;i++){
+                </button>
 
-    const star = document.createElement("div");
+                <div class="game-image">
+                    👾
+                </div>
 
-    star.className = "star";
+                <h3>Galaxy Strike</h3>
 
-    star.style.left = Math.random()*100 + "%";
-    star.style.top = Math.random()*100 + "%";
+                <p>
+                    Defend the galaxy from unknown
+                    cosmic invaders.
+                </p>
 
-    star.style.animationDelay =
-        Math.random()*3 + "s";
+                <div class="game-info">
 
-    star.style.opacity =
-        Math.random();
+                    <span class="game-category">
+                        Action
+                    </span>
 
-    space.appendChild(star);
-}
+                    <span>
+                        ⭐ 4.9
+                    </span>
 
+                </div>
 
-/* LAUNCH SYSTEM */
+                <button
+                    class="launch-btn"
+                    onclick="launchGame('Galaxy Strike','👾')">
 
-function launchSystem(){
+                    🚀 LAUNCH
 
-    alert(
-        "🚀 ORBIT SYSTEM\n\n" +
-        "Launch sequence initiated...\n" +
-        "All systems operational."
-    );
+                </button>
 
-}
+            </div>
 
 
-/* FEATURE BUTTON */
+            <!-- GAME 3 -->
 
-function openFeature(name){
+            <div
+                class="game-card"
+                data-name="Quantum Puzzle"
+                data-category="Puzzle">
 
-    alert(
-        "🛰️ " + name +
-        " system selected.\n\n" +
-        "This module is ready to be connected."
-    );
+                <button
+                    class="favorite"
+                    onclick="toggleFavorite(this,'Quantum Puzzle')">
 
-}
+                    ★
 
+                </button>
 
-/* CONTACT */
+                <div class="game-image">
+                    🧩
+                </div>
 
-function showMessage(){
+                <h3>Quantum Puzzle</h3>
 
-    alert(
-        "🌌 Welcome to ORBIT!\n\n" +
-        "Your journey has begun."
-    );
+                <p>
+                    Solve mysterious quantum
+                    puzzles hidden inside the system.
+                </p>
 
-}
+                <div class="game-info">
 
+                    <span class="game-category">
+                        Puzzle
+                    </span>
 
-/* TERMINAL */
+                    <span>
+                        ⭐ 4.7
+                    </span>
 
-const terminal = document.getElementById("terminalText");
+                </div>
 
-const lines = [
-    "> ORBIT CORE INITIALIZING...",
-    "> Connecting to deep space network...",
-    "> Scanning nearby systems...",
-    "> Quantum gateway: ONLINE",
-    "> Navigation system: ONLINE",
-    "> Artificial intelligence: ONLINE",
-    "> Black hole containment: STABLE",
-    "> All systems operational.",
-    "> Welcome, explorer."
-];
+                <button
+                    class="launch-btn"
+                    onclick="launchGame('Quantum Puzzle','🧩')">
 
-let line = 0;
+                    🚀 LAUNCH
 
-function typeLine(){
+                </button>
 
-    if(line >= lines.length){
-        terminal.innerHTML +=
-            "<br><span style='color:#fff'>_</span>";
-        return;
-    }
+            </div>
 
-    terminal.innerHTML +=
-        lines[line] + "<br>";
 
-    line++;
+            <!-- GAME 4 -->
 
-    setTimeout(typeLine,700);
-}
+            <div
+                class="game-card"
+                data-name="Planet Commander"
+                data-category="Strategy">
 
-setTimeout(typeLine,1000);
+                <button
+                    class="favorite"
+                    onclick="toggleFavorite(this,'Planet Commander')">
 
+                    ★
 
-/* SCROLL TOP */
+                </button>
 
-const topButton = document.getElementById("top");
+                <div class="game-image">
+                    🪐
+                </div>
 
-window.addEventListener("scroll",function(){
+                <h3>Planet Commander</h3>
 
-    if(window.scrollY > 500){
+                <p>
+                    Build your civilization and
+                    control the outer planets.
+                </p>
 
-        topButton.style.display="block";
+                <div class="game-info">
 
-    }else{
+                    <span class="game-category">
+                        Strategy
+                    </span>
 
-        topButton.style.display="none";
-
-    }
-
-});
-
-
-/* PARALLAX BLACK HOLE */
-
-window.addEventListener("mousemove",function(e){
-
-    const x =
-        (e.clientX / window.innerWidth - .5) * 20;
-
-    const y =
-        (e.clientY / window.innerHeight - .5) * 20;
-
-    document.querySelector(".blackhole").style.transform =
-        `translate(calc(-50% + ${x}px),calc(-50% + ${y}px))`;
-
-});
-
-
-</script>
-
-</body>
-</html>
+                    <span>
+                        ⭐ 4.9
+     
