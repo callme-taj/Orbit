@@ -1,21 +1,1379 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#02030a">
-<title>ORBIT — Personal Space</title><link rel="stylesheet" href="styles.css">
-</head><body data-page="home">
-<canvas id="spaceCanvas"></canvas><div class="space-vignette"></div>
-<header class="navbar"><a class="brand" href="index.html">ORB<span>IT</span></a><button class="menu-btn" id="menuBtn">☰</button><nav class="nav-links" id="navLinks"><a class="active" href="index.html">Home</a><a href="games.html">Games</a><a href="notes.html">Notes</a><a href="files.html">Files</a><a href="social.html">Social</a><a href="request.html">Request</a><a href="about.html">About</a><a href="login.html">Login</a></nav></header>
-<main>
-<section class="hero"><div class="hero-inner reveal"><div class="pill"><span class="dot"></span> ORBIT CORE ONLINE</div><h1>ORBIT</h1><p>Your personal digital space for study materials, files, photos, videos, notes, games and social connections — wrapped in a futuristic sci‑fi universe.</p><div class="actions"><a class="btn" href="files.html">📁 Open Files</a><a class="btn ghost" href="games.html">🎮 Explore Games</a><a class="btn ghost" href="social.html">🌐 Social Hub</a></div><div class="space-hud"><div class="hud"><b>24/7</b><small>Availability</small></div><div class="hud"><b id="energyValue">87%</b><small>Core Energy</small></div><div class="hud"><b id="liveClock">--:--:--</b><small>Local Time</small></div><div class="hud"><b>ONLINE</b><small>Network</small></div></div></div></section>
-<section class="section"><div class="container"><div class="section-head reveal"><small>ORBIT MODULES</small><h2>Everything in One Orbit</h2><p>Keep your personal content organized while giving friends a clean, futuristic place to discover what you share.</p></div><div class="card-grid">
-<div class="card reveal"><div class="icon">📚</div><h3>Study Hub</h3><p>Keep notes, study files and useful material easy to find.</p><a class="btn" href="files.html">Open Files</a></div>
-<div class="card reveal"><div class="icon">🎮</div><h3>Games</h3><p>Browse an expandable collection with search, filters and favorites.</p><a class="btn" href="games.html">Open Games</a></div>
-<div class="card reveal"><div class="icon">📝</div><h3>Notes</h3><p>Create and save personal notes directly in your browser.</p><a class="btn" href="notes.html">Open Notes</a></div>
-<div class="card reveal"><div class="icon">📡</div><h3>Request Center</h3><p>Let friends request files, features or additions to the site.</p><a class="btn" href="request.html">Make Request</a></div>
-</div></div></section>
-<section class="section"><div class="container"><div class="section-head reveal"><small>MISSION CONTROL</small><h2>System Dashboard</h2><p>A visual status layer for the ORBIT experience.</p></div><div class="dashboard"><div class="panel reveal"><h3>Core Systems</h3><div class="status-list"><div class="status-row"><span>Navigation</span><b class="ok">STABLE</b></div><div class="status-row"><span>Resource Vault</span><b class="ok">READY</b></div><div class="status-row"><span>Social Link</span><b class="ok">CONNECTED</b></div><div class="status-row"><span>Security Layer</span><b class="ok">ACTIVE</b></div></div></div><div class="panel reveal"><h3>Energy</h3><div class="status-row"><span>Core Power</span><b id="energyValue2">87%</b></div><div class="meter"><i id="energyMeter" style="width:87%"></i></div><p style="color:#718197;font-size:12px;margin-top:15px;line-height:1.7">Telemetry is simulated locally for the interface. Real shared storage and authentication require a backend.</p></div></div></div></section>
-<section class="section"><div class="container"><div class="section-head reveal"><small>QUICK LAUNCH</small><h2>Fast Access</h2></div><div class="quick-grid"><a class="quick reveal" href="social.html"><b>🌐 Social Hub</b><span>All your social links in one place.</span></a><a class="quick reveal" href="about.html"><b>🛰️ About ORBIT</b><span>Learn about the project and its mission.</span></a><a class="quick reveal" href="login.html"><b>🔐 Optional Login</b><span>Prepare the site for Google sign-in.</span></a></div></div></section>
-<section class="section"><div class="container"><div class="section-head reveal"><small>TERMINAL</small><h2>ORBIT Console</h2><p>A sci-fi system console for the interface.</p></div><div class="terminal reveal"><div class="terminal-head"><span class="term-dot" style="background:#ff5570"></span><span class="term-dot" style="background:#ffd35e"></span><span class="term-dot" style="background:#55e89c"></span></div><div id="terminalText" class="terminal-body"></div></div></div></section>
-</main>
-<footer><div class="footer-orbit"></div><div class="footer-brand">ORB<span>IT</span></div><div class="footer-links"><a href="games.html">Games</a><a href="notes.html">Notes</a><a href="files.html">Files</a><a href="social.html">Social</a><a href="request.html">Request</a><a href="about.html">About</a></div><div class="footer-copy">Personal digital space • Built for exploration</div></footer><button id="topBtn">↑</button><div id="modal"><div class="modal-card"><div class="modal-head"><h3 id="modalTitle"></h3><button class="close" id="closeModal">✕</button></div><div class="modal-body" id="modalBody"></div></div></div>
-</body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#02030a">
+
+<title>ORBIT — Personal Space</title>
+
+<style>
+
+/* =========================================================
+   ORBIT — HOME PAGE
+   Self-contained HTML + CSS + JavaScript
+========================================================= */
+
+:root{
+    --bg:#02030a;
+    --bg2:#050817;
+    --cyan:#5ee7ff;
+    --blue:#4d7cff;
+    --purple:#9b5cff;
+    --pink:#ff4fd8;
+    --green:#55ffb1;
+    --white:#ffffff;
+    --text:#dce8f7;
+    --muted:#7d8ba0;
+    --border:rgba(255,255,255,.10);
+    --glass:rgba(255,255,255,.045);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--white);
+    font-family:Arial,Helvetica,sans-serif;
+    overflow-x:hidden;
+}
+
+/* =========================================================
+   SPACE BACKGROUND
+========================================================= */
+
+#spaceCanvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:-20;
+}
+
+.space-vignette{
+    position:fixed;
+    inset:0;
+    z-index:-19;
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(83,43,180,.10),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(0,200,255,.045),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(255,40,200,.035),
+            transparent 25%
+        );
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:68px;
+
+    padding:0 5%;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:rgba(2,3,8,.48);
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,.07);
+
+    z-index:1000;
+
+    transition:.35s;
+}
+
+.navbar.scrolled{
+    background:rgba(2,3,8,.94);
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.5);
+}
+
+.brand{
+    color:white;
+    text-decoration:none;
+
+    font-size:23px;
+    font-weight:900;
+
+    letter-spacing:5px;
+
+    text-shadow:
+        0 0 20px rgba(94,231,255,.18);
+}
+
+.brand span{
+    color:var(--cyan);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.nav-links a{
+    position:relative;
+
+    color:#8997ab;
+    text-decoration:none;
+
+    font-size:12px;
+
+    transition:.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    color:white;
+}
+
+.nav-links a::after{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-7px;
+
+    width:0;
+    height:2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--cyan),
+            var(--purple)
+        );
+
+    transition:.3s;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after{
+    width:100%;
+}
+
+.menu-btn{
+    display:none;
+
+    width:42px;
+    height:42px;
+
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:10px;
+
+    background:rgba(255,255,255,.05);
+
+    color:white;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    position:relative;
+
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:
+        120px 20px
+        80px;
+
+    overflow:hidden;
+}
+
+.hero-inner{
+    position:relative;
+    z-index:5;
+
+    width:100%;
+    max-width:900px;
+}
+
+.pill{
+    display:inline-flex;
+
+    align-items:center;
+    gap:9px;
+
+    padding:9px 15px;
+
+    border-radius:50px;
+
+    border:1px solid rgba(94,231,255,.2);
+
+    background:rgba(94,231,255,.045);
+
+    color:#9deeff;
+
+    font-size:11px;
+
+    letter-spacing:1.5px;
+
+    box-shadow:
+        0 0 30px rgba(94,231,255,.05);
+}
+
+.dot{
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    box-shadow:
+        0 0 15px var(--green);
+
+    animation:
+        dotPulse 1.4s infinite;
+}
+
+@keyframes dotPulse{
+    50%{
+        transform:scale(.45);
+        opacity:.5;
+    }
+}
+
+.hero h1{
+    margin-top:25px;
+
+    font-size:
+        clamp(70px,16vw,160px);
+
+    line-height:.85;
+
+    letter-spacing:
+        clamp(5px,2vw,16px);
+
+    font-weight:900;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #5ee7ff,
+            #806bff,
+            #ff55d8,
+            #ffffff
+        );
+
+    background-size:300% auto;
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
+
+    animation:
+        titleFlow 7s linear infinite;
+
+    filter:
+        drop-shadow(
+            0 0 30px rgba(94,231,255,.08)
+        );
+}
+
+@keyframes titleFlow{
+    to{
+        background-position:300% center;
+    }
+}
+
+.hero p{
+    max-width:720px;
+
+    margin:
+        25px auto
+        30px;
+
+    color:#8290a5;
+
+    line-height:1.8;
+
+    font-size:15px;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.actions{
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+}
+
+.btn{
+    position:relative;
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    min-height:44px;
+
+    padding:12px 19px;
+
+    border-radius:12px;
+
+    border:1px solid rgba(94,231,255,.18);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(52,108,255,.85),
+            rgba(139,67,255,.85)
+        );
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:12px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    transition:
+        transform .2s,
+        box-shadow .3s,
+        border-color .3s;
+}
+
+.btn:hover{
+    transform:
+        translateY(-4px)
+        scale(1.025);
+
+    border-color:
+        rgba(94,231,255,.55);
+
+    box-shadow:
+        0 12px 35px rgba(67,92,255,.25),
+        0 0 25px rgba(94,231,255,.08);
+}
+
+.btn:active{
+    transform:
+        translateY(1px)
+        scale(.96);
+}
+
+.btn.ghost{
+    background:rgba(255,255,255,.035);
+}
+
+.ripple{
+    position:absolute;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.3);
+
+    transform:scale(0);
+
+    pointer-events:none;
+
+    animation:ripple .65s linear;
+}
+
+@keyframes ripple{
+    to{
+        transform:scale(5);
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   BLACK HOLE
+========================================================= */
+
+.black-hole{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:500px;
+    height:500px;
+
+    transform:
+        translate(-50%,-50%);
+
+    pointer-events:none;
+
+    opacity:.85;
+
+    z-index:0;
+}
+
+.black-hole-core{
+    position:absolute;
+
+    left:145px;
+    top:145px;
+
+    width:210px;
+    height:210px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #000 0%,
+            #000 50%,
+            #08030f 67%,
+            transparent 73%
+        );
+
+    box-shadow:
+        0 0 70px rgba(120,50,255,.16),
+        0 0 120px rgba(0,200,255,.08);
+}
+
+.black-hole-ring{
+    position:absolute;
+
+    inset:70px;
+
+    border-radius:50%;
+
+    border:17px solid transparent;
+
+    border-top-color:
+        rgba(255,75,215,.7);
+
+    border-right-color:
+        rgba(94,231,255,.65);
+
+    border-bottom-color:
+        rgba(112,80,255,.45);
+
+    transform:
+        rotate(-20deg)
+        scaleY(.42);
+
+    filter:blur(1px);
+
+    animation:
+        holeSpin 5s linear infinite;
+
+    box-shadow:
+        0 0 35px rgba(255,79,216,.15),
+        0 0 50px rgba(94,231,255,.10);
+}
+
+.black-hole-ring.two{
+    inset:95px;
+
+    border-width:9px;
+
+    opacity:.65;
+
+    animation-duration:3.5s;
+
+    animation-direction:reverse;
+}
+
+.black-hole-ring.three{
+    inset:45px;
+
+    border-width:4px;
+
+    opacity:.35;
+
+    animation-duration:8s;
+}
+
+@keyframes holeSpin{
+    to{
+        transform:
+            rotate(340deg)
+            scaleY(.42);
+    }
+}
+
+/* =========================================================
+   HUD
+========================================================= */
+
+.space-hud{
+    width:min(850px,100%);
+
+    margin:
+        45px auto
+        0;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+}
+
+.hud{
+    padding:17px 10px;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    border-radius:16px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    backdrop-filter:blur(10px);
+
+    transition:.3s;
+}
+
+.hud:hover{
+    transform:translateY(-5px);
+
+    border-color:
+        rgba(94,231,255,.25);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.25);
+}
+
+.hud b{
+    display:block;
+
+    font-size:18px;
+
+    color:white;
+}
+
+.hud small{
+    display:block;
+
+    margin-top:6px;
+
+    color:#69788e;
+
+    font-size:9px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.2px;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section{
+    position:relative;
+
+    padding:
+        105px 5%;
+}
+
+.container{
+    width:min(1150px,100%);
+    margin:auto;
+}
+
+.section-head{
+    text-align:center;
+
+    max-width:750px;
+
+    margin:
+        0 auto
+        45px;
+}
+
+.section-head small{
+    color:var(--cyan);
+
+    font-size:10px;
+
+    letter-spacing:4px;
+}
+
+.section-head h2{
+    margin:
+        12px 0;
+
+    font-size:
+        clamp(32px,6vw,55px);
+}
+
+.section-head p{
+    color:#738197;
+
+    line-height:1.75;
+
+    font-size:13px;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:15px;
+}
+
+.card{
+    position:relative;
+
+    min-height:245px;
+
+    padding:25px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.06),
+            rgba(255,255,255,.025)
+        );
+
+    backdrop-filter:blur(15px);
+
+    overflow:hidden;
+
+    transition:
+        transform .35s,
+        border-color .35s,
+        box-shadow .35s;
+}
+
+.card::before{
+    content:"";
+
+    position:absolute;
+
+    inset:-100%;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent 40%,
+            rgba(94,231,255,.08),
+            transparent 60%
+        );
+
+    transform:translateX(-30%);
+
+    transition:.8s;
+}
+
+.card:hover::before{
+    transform:translateX(30%);
+}
+
+.card:hover{
+    transform:
+        translateY(-10px)
+        rotateX(2deg)
+        rotateY(-2deg);
+
+    border-color:
+        rgba(94,231,255,.3);
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.4),
+        0 0 30px rgba(94,231,255,.06);
+}
+
+.icon{
+    font-size:34px;
+
+    margin-bottom:18px;
+}
+
+.card h3{
+    font-size:19px;
+
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#77869b;
+
+    font-size:13px;
+
+    line-height:1.7;
+
+    min-height:66px;
+
+    margin-bottom:16px;
+}
+
+.card .btn{
+    padding:
+        9px 15px;
+
+    min-height:36px;
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard{
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:16px;
+}
+
+.panel{
+    padding:25px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    backdrop-filter:blur(15px);
+}
+
+.panel h3{
+    margin-bottom:20px;
+}
+
+.status-row{
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    padding:14px 0;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.06);
+
+    color:#b9c6d7;
+
+    font-size:13px;
+}
+
+.status-row:last-child{
+    border-bottom:0;
+}
+
+.ok{
+    color:var(--green);
+
+    font-size:10px;
+
+    letter-spacing:1px;
+}
+
+.meter{
+    width:100%;
+
+    height:9px;
+
+    margin-top:15px;
+
+    border-radius:50px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    overflow:hidden;
+}
+
+.meter i{
+    display:block;
+
+    height:100%;
+
+    border-radius:50px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--cyan),
+            var(--purple),
+            var(--pink)
+        );
+
+    box-shadow:
+        0 0 20px rgba(94,231,255,.25);
+
+    transition:
+        width 1s ease;
+}
+
+/* =========================================================
+   QUICK ACCESS
+========================================================= */
+
+.quick-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:15px;
+}
+
+.quick{
+    display:block;
+
+    padding:23px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    text-decoration:none;
+
+    transition:.3s;
+}
+
+.quick:hover{
+    transform:translateY(-7px);
+
+    border-color:
+        rgba(165,107,255,.35);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.3);
+}
+
+.quick b{
+    display:block;
+
+    color:white;
+
+    margin-bottom:9px;
+}
+
+.quick span{
+    color:#718097;
+
+    font-size:12px;
+
+    line-height:1.6;
+}
+
+/* =========================================================
+   TERMINAL
+========================================================= */
+
+.terminal{
+    border:
+        1px solid rgba(94,231,255,.14);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    background:#010207;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.4);
+}
+
+.terminal-head{
+    padding:13px 16px;
+
+    background:#080b13;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.06);
+}
+
+.term-dot{
+    display:inline-block;
+
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+    margin-right:5px;
+}
+
+.terminal-body{
+    min-height:220px;
+
+    padding:22px;
+
+    color:#92eaff;
+
+    font-family:
+        Consolas,
+        Monaco,
+        monospace;
+
+    font-size:12px;
+
+    line-height:1.9;
+
+    white-space:pre-wrap;
+}
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+.reveal{
+    opacity:0;
+
+    transform:
+        translateY(45px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+.reveal.active{
+    opacity:1;
+
+    transform:
+        translateY(0);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+    position:relative;
+
+    padding:
+        80px 5%
+        30px;
+
+    text-align:center;
+
+    border-top:
+        1px solid rgba(255,255,255,.07);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(3,5,12,.5),
+            #010207
+        );
+
+    overflow:hidden;
+}
+
+.footer-orbit{
+    width:min(750px,90%);
+
+    height:130px;
+
+    margin:
+        0 auto
+        30px;
+
+    border:
+        1px solid rgba(94,231,255,.13);
+
+    border-radius:50%;
+
+    transform:
+        rotate(-7deg);
+
+    animation:
+        footerFloat 5s ease-in-out infinite;
+}
+
+.footer-orbit::before{
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+
+    transform:
+        translateX(-50%);
+
+    width:60%;
+
+    height:80px;
+
+    border:
+        1px solid rgba(165,107,255,.08);
+
+    border-radius:50%;
+}
+
+@keyframes footerFloat{
+    50%{
+        transform:
+            rotate(-7deg)
+            translateY(-8px)
+            scale(1.02);
+    }
+}
+
+.footer-brand{
+    font-size:30px;
+
+    font-weight:900;
+
+    letter-spacing:7px;
+
+    margin-bottom:12px;
+}
+
+.footer-brand span{
+    color:var(--cyan);
+}
+
+.footer-links{
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+    margin:22px 0;
+}
+
+.footer-links a{
+    color:#748197;
+
+    font-size:11px;
+
+    text-decoration:none;
+
+    transition:.3s;
+}
+
+.footer-links a:hover{
+    color:var(--cyan);
+}
+
+.footer-copy{
+    color:#3f4b5b;
+
+    font-size:10px;
+}
+
+/* =========================================================
+   TOP BUTTON
+========================================================= */
+
+#topBtn{
+    position:fixed;
+
+    right:20px;
+    bottom:20px;
+
+    width:46px;
+    height:46px;
+
+    border:
+        1px solid rgba(94,231,255,.25);
+
+    border-radius:50%;
+
+    background:
+        rgba(5,8,18,.82);
+
+    color:white;
+
+    cursor:pointer;
+
+    z-index:900;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.3s;
+
+    backdrop-filter:blur(10px);
+}
+
+#topBtn.show{
+    opacity:1;
+    visibility:visible;
+}
+
+#topBtn:hover{
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 0 25px rgba(94,231,255,.15);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+    .card-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .space-hud{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .dashboard{
+        grid-template-columns:1fr;
+    }
+
+    .quick-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .nav-links{
+        position:absolute;
+
+        top:68px;
+        left:15px;
+        right:15px;
+
+        display:none;
+
+        flex-direction:column;
+
+        gap:0;
+
+        padding:10px;
+
+        border:
+            1px solid rgba(255,255,255,.09);
+
+        border-radius:15px;
+
+        background:
+            rgba(3,5,13,.96);
+
+        backdrop-filter:blur(20px);
+    }
+
+    .nav-links.open{
+        display:flex;
+    }
+
+    .nav-links a{
+        width:100%;
+
+        padding:13px;
+
+        border-radius:9px;
+    }
+
+    .nav-links a:hover{
+        background:
+            rgba(94,231,255,.05);
+    }
+
+    .nav-links a::after{
+        display:none;
+    }
+
+    .card-grid{
+        grid-template-columns:1fr;
+    }
+
+    .black-hole{
+        width:380px;
+        height:380px;
+    }
+
+    .black-hole-core{
+        left:110px;
+        top:110px;
+    }
+
+    .hero h1{
+        letter-spacing:6px;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .hero{
+        padding-left:15px;
+        padding-right:15px;
+    }
+
+    .space-hud{
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+    }
+
+    .hud{
+        padding:14px 7px;
+    }
+
+    .hud b{
+        font-size:15px;
+    }
+
+    .hud small{
+        font-size:8px;
+    }
+
+    .black-hole{
+        width:320px;
+        height:320px;
+    }
+
+    .black-hole-core{
+        left:90px;
+        top:90px;
+
+        width:140px;
+        height:140px;
+    }
+
+    .section{
+        padding:
+            80px 18px;
+    }
+
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:.01ms !important;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     BACKGROUND
+======================================================= -->
+
+<canvas id="spaceCanvas"></canvas>
+
+<div class="space-vignette"></div>
+
+
+<!-- =======================================================
+     NAVIGATION
+======================================================= -->
+
+<header class="navbar" id="navbar">
+
+    <a class="brand" href="index.html">
+        ORB<span>IT</span>
+    </a>
+
+    <button
+        class="menu-btn"
+        id="menuBtn"
+        aria-label="Open menu">
+        ☰
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+
+        <a class="active" href="index.html">
+            Home
+        </a>
+
+        <a href="games.html">
+  
