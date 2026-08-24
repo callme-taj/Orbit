@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<meta name="theme-color"
-content="#02030a">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#02030a">
 
 <title>ORBIT — Beyond the Ordinary</title>
 
 <style>
-
-/* =====================================================
-   GLOBAL
-===================================================== */
-
 *{
     margin:0;
     padding:0;
@@ -31,1373 +20,1098 @@ html{
 
 body{
     background:#02030a;
-    color:#fff;
+    color:white;
     font-family:Arial,Helvetica,sans-serif;
     overflow-x:hidden;
 }
 
-button,
-input{
-    font-family:inherit;
-}
+/* ================= BACKGROUND ================= */
 
-/* =====================================================
-   SPACE BACKGROUND
-===================================================== */
-
-.space{
+#spaceCanvas{
     position:fixed;
     inset:0;
+    width:100%;
+    height:100%;
     z-index:-10;
-    overflow:hidden;
-
-    background:
-    radial-gradient(
-        circle at 50% 45%,
-        #17002d 0%,
-        #070918 25%,
-        #02030a 65%,
-        #000 100%
-    );
 }
 
-/* =====================================================
-   STARS
-===================================================== */
-
-.star{
-    position:absolute;
-    width:2px;
-    height:2px;
-    border-radius:50%;
-    background:#fff;
-
-    animation:
-    twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-
-    from{
-        opacity:.15;
-        transform:scale(.7);
-    }
-
-    to{
-        opacity:1;
-        transform:scale(1.4);
-    }
-
-}
-
-/* =====================================================
-   BLACK HOLE
-===================================================== */
-
-.blackhole{
-
-    position:absolute;
-
-    width:330px;
-    height:330px;
-
-    left:50%;
-    top:45%;
-
-    transform:translate(-50%,-50%);
-
-    border-radius:50%;
-
-    background:#000;
-
-    box-shadow:
-    0 0 40px #7428ff,
-    0 0 90px #4013a5,
-    0 0 170px rgba(0,170,255,.25);
-}
-
-.ring{
-
-    position:absolute;
-
-    width:500px;
-    height:180px;
-
-    left:50%;
-    top:45%;
-
-    transform:
-    translate(-50%,-50%)
-    rotate(-15deg);
-
-    border-radius:50%;
-
-    border:15px solid transparent;
-
-    border-top-color:#ff35d1;
-    border-bottom-color:#21d4ff;
-
-    box-shadow:
-    0 0 25px #ff35d1,
-    0 0 50px #21d4ff;
-
-    animation:
-    spin 5s linear infinite;
-}
-
-@keyframes spin{
-
-    from{
-        transform:
-        translate(-50%,-50%)
-        rotate(0deg);
-    }
-
-    to{
-        transform:
-        translate(-50%,-50%)
-        rotate(360deg);
-    }
-
-}
-
-/* =====================================================
-   NAVBAR
-===================================================== */
-
-nav{
-
+.space-overlay{
     position:fixed;
+    inset:0;
+    z-index:-9;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 50% 55%,
+        rgba(70,30,180,.10),
+        transparent 28%),
+        radial-gradient(circle at 20% 20%,
+        rgba(0,200,255,.04),
+        transparent 25%);
+}
 
+/* ================= NAVBAR ================= */
+
+.navbar{
+    position:fixed;
     top:0;
     left:0;
-
     width:100%;
-
-    padding:18px 6%;
-
+    height:64px;
     display:flex;
-
-    justify-content:space-between;
     align-items:center;
-
-    background:rgba(0,0,0,.55);
-
+    justify-content:space-between;
+    padding:0 6%;
+    background:rgba(2,3,8,.55);
     backdrop-filter:blur(15px);
-
-    border-bottom:
-    1px solid rgba(255,255,255,.1);
-
+    border-bottom:1px solid rgba(255,255,255,.07);
     z-index:1000;
+    transition:.3s;
+}
+
+.navbar.scrolled{
+    background:rgba(2,3,8,.92);
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
 .logo{
-
-    color:#fff;
-
     text-decoration:none;
-
-    font-size:25px;
-
-    font-weight:900;
-
+    color:white;
+    font-size:20px;
     letter-spacing:4px;
+    font-weight:800;
 }
 
 .logo span{
-    color:#40eaff;
+    color:#5ee7ff;
 }
 
 .nav-links{
-
     display:flex;
-
-    gap:20px;
+    gap:22px;
 }
 
 .nav-links a{
-
-    color:#aaa;
-
+    color:#8995a8;
     text-decoration:none;
-
-    font-size:13px;
-
+    font-size:12px;
     transition:.3s;
 }
 
 .nav-links a:hover{
-    color:#40eaff;
+    color:#5ee7ff;
 }
 
-/* =====================================================
-   HERO
-===================================================== */
+/* ================= HERO ================= */
 
 .hero{
-
     min-height:100vh;
-
     display:flex;
-
-    flex-direction:column;
-
     justify-content:center;
-
     align-items:center;
-
     text-align:center;
+    padding:100px 20px 60px;
+}
 
-    padding:
-    100px 20px 50px;
+.hero-content{
+    max-width:850px;
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border:1px solid rgba(94,231,255,.2);
+    border-radius:30px;
+    background:rgba(94,231,255,.05);
+    color:#8eeeff;
+    font-size:11px;
+    letter-spacing:1px;
+    margin-bottom:25px;
+}
+
+.status-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#55ffb1;
+    box-shadow:0 0 15px #55ffb1;
+    animation:pulse 1.4s infinite;
+}
+
+@keyframes pulse{
+    50%{
+        transform:scale(.5);
+        opacity:.5;
+    }
 }
 
 .hero h1{
-
-    font-size:
-    clamp(60px,13vw,140px);
-
+    font-size:clamp(60px,15vw,145px);
     letter-spacing:12px;
-
-    background:
-    linear-gradient(
+    line-height:.9;
+    background:linear-gradient(
         90deg,
         #fff,
-        #35eaff,
-        #9d55ff,
-        #ff38d1,
+        #5ee7ff,
+        #9c6cff,
+        #ff55d7,
         #fff
     );
-
     background-size:300%;
-
     -webkit-background-clip:text;
-
+    background-clip:text;
     color:transparent;
-
-    animation:
-    gradientMove 6s linear infinite;
+    animation:gradient 7s linear infinite;
 }
 
-@keyframes gradientMove{
-
+@keyframes gradient{
     to{
         background-position:300%;
     }
-
 }
 
 .hero p{
-
     max-width:650px;
-
     margin:25px auto;
-
-    color:#9ca9bd;
-
+    color:#7d899d;
     line-height:1.8;
+    font-size:15px;
 }
 
-.btn{
-
-    display:inline-flex;
-
-    align-items:center;
-
+.hero-buttons{
+    display:flex;
     justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
 
-    padding:14px 25px;
+/* ================= BUTTONS ================= */
 
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:13px 22px;
     border-radius:12px;
-
-    border:
-    1px solid rgba(80,230,255,.4);
-
-    background:
-    linear-gradient(
-        135deg,
-        #155cff,
-        #923cff,
-        #e62fc8
-    );
-
-    color:#fff;
-
+    color:white;
     text-decoration:none;
-
-    font-weight:bold;
-
+    border:none;
     cursor:pointer;
-
+    font-weight:bold;
+    font-size:13px;
     transition:.3s;
+    position:relative;
+    overflow:hidden;
 }
 
 .btn:hover{
-
-    transform:
-    translateY(-5px)
-    scale(1.04);
-
-    box-shadow:
-    0 10px 35px
-    rgba(70,150,255,.4);
+    transform:translateY(-4px) scale(1.03);
 }
 
-/* =====================================================
-   GENERAL SECTION
-===================================================== */
+.btn:active{
+    transform:scale(.96);
+}
+
+.btn-primary{
+    background:linear-gradient(
+        135deg,
+        #286bff,
+        #8a42ff,
+        #e83fd3
+    );
+    box-shadow:0 8px 30px rgba(110,70,255,.3);
+}
+
+.btn-outline{
+    border:1px solid rgba(94,231,255,.25);
+    background:rgba(94,231,255,.05);
+}
+
+/* ================= BLACK HOLE ================= */
+
+.black-hole{
+    position:absolute;
+    width:420px;
+    height:420px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+}
+
+.black-hole-core{
+    position:absolute;
+    width:210px;
+    height:210px;
+    left:105px;
+    top:105px;
+    border-radius:50%;
+    background:#000;
+    box-shadow:
+        0 0 50px rgba(130,50,255,.25),
+        0 0 100px rgba(0,190,255,.12);
+}
+
+.ring{
+    position:absolute;
+    inset:55px;
+    border-radius:50%;
+    border:15px solid transparent;
+    border-top-color:#ff4fd8;
+    border-right-color:#5ee7ff;
+    border-bottom-color:#744cff;
+    transform:scaleY(.43) rotate(-20deg);
+    animation:ringSpin 5s linear infinite;
+    filter:blur(1px);
+}
+
+.ring.two{
+    inset:80px;
+    border-width:8px;
+    opacity:.65;
+    animation-duration:3.5s;
+    animation-direction:reverse;
+}
+
+@keyframes ringSpin{
+    to{
+        transform:scaleY(.43) rotate(340deg);
+    }
+}
+
+/* ================= SECTION ================= */
 
 section{
-
-    padding:
-    100px 6%;
+    padding:100px 5%;
 }
 
 .section-title{
-
     text-align:center;
+    margin-bottom:45px;
+}
 
-    margin-bottom:40px;
+.section-title small{
+    color:#5ee7ff;
+    letter-spacing:4px;
+    font-size:10px;
 }
 
 .section-title h2{
-
-    font-size:
-    clamp(32px,5vw,50px);
+    font-size:clamp(30px,6vw,52px);
+    margin:12px 0;
 }
 
 .section-title p{
-
-    color:#78869b;
-
-    margin-top:10px;
-}
-
-/* =====================================================
-   GAMES SECTION
-===================================================== */
-
-.games-section{
-
-    position:relative;
-
-    min-height:800px;
-}
-
-.games-panel{
-
-    max-width:1200px;
-
-    margin:auto;
-
-    padding:25px;
-
-    border:
-    1px solid
-    rgba(255,255,255,.1);
-
-    border-radius:25px;
-
-    background:
-    rgba(255,255,255,.035);
-
-    backdrop-filter:blur(14px);
-
-    box-shadow:
-    0 20px 80px
-    rgba(0,0,0,.35);
-}
-
-/* =====================================================
-   GAME TOOLBAR
-===================================================== */
-
-.games-toolbar{
-
-    display:flex;
-
-    gap:12px;
-
-    flex-wrap:wrap;
-
-    justify-content:space-between;
-
-    margin-bottom:25px;
-}
-
-.search-box{
-
-    flex:1;
-
-    min-width:220px;
-}
-
-.search-box input{
-
-    width:100%;
-
-    padding:14px 17px;
-
-    border-radius:12px;
-
-    border:
-    1px solid
-    rgba(90,220,255,.15);
-
-    background:
-    rgba(0,0,0,.4);
-
-    color:#fff;
-
-    outline:none;
-
-    transition:.3s;
-}
-
-.search-box input:focus{
-
-    border-color:#35dcff;
-
-    box-shadow:
-    0 0 25px
-    rgba(53,220,255,.1);
-}
-
-.filter-buttons{
-
-    display:flex;
-
-    gap:8px;
-
-    flex-wrap:wrap;
-}
-
-.filter-btn{
-
-    padding:
-    11px 15px;
-
-    border-radius:10px;
-
-    border:
-    1px solid
-    rgba(255,255,255,.1);
-
-    background:
-    rgba(255,255,255,.04);
-
-    color:#aaa;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-.filter-btn:hover,
-.filter-btn.active{
-
-    color:#fff;
-
-    border-color:#38dfff;
-
-    background:
-    rgba(40,200,255,.1);
-
-    box-shadow:
-    0 0 20px
-    rgba(40,200,255,.08);
-}
-
-/* =====================================================
-   RANDOM BUTTON
-===================================================== */
-
-.random-area{
-
-    display:flex;
-
-    justify-content:center;
-
-    margin-bottom:30px;
-}
-
-/* =====================================================
-   GAME GRID
-===================================================== */
-
-.game-grid{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(
-        auto-fit,
-        minmax(220px,1fr)
-    );
-
-    gap:18px;
-}
-
-/* =====================================================
-   GAME CARD
-===================================================== */
-
-.game-card{
-
-    position:relative;
-
-    min-height:300px;
-
-    padding:22px;
-
-    border-radius:20px;
-
-    background:
-    linear-gradient(
-        145deg,
-        rgba(255,255,255,.065),
-        rgba(255,255,255,.025)
-    );
-
-    border:
-    1px solid
-    rgba(255,255,255,.1);
-
-    overflow:hidden;
-
-    transition:.4s;
-
-    display:flex;
-
-    flex-direction:column;
-}
-
-.game-card:hover{
-
-    transform:
-    translateY(-9px);
-
-    border-color:
-    rgba(55,220,255,.35);
-
-    box-shadow:
-    0 20px 50px
-    rgba(0,0,0,.4),
-    0 0 30px
-    rgba(40,190,255,.08);
-}
-
-/* GAME IMAGE */
-
-.game-image{
-
-    height:130px;
-
-    border-radius:15px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-size:60px;
-
-    margin-bottom:18px;
-
-    background:
-    radial-gradient(
-        circle,
-        rgba(80,220,255,.2),
-        rgba(100,30,180,.15),
-        rgba(0,0,0,.4)
-    );
-
-    border:
-    1px solid
-    rgba(255,255,255,.08);
-}
-
-/* FAVORITE */
-
-.favorite{
-
-    position:absolute;
-
-    top:12px;
-    right:12px;
-
-    width:36px;
-    height:36px;
-
-    border-radius:50%;
-
-    border:
-    1px solid
-    rgba(255,255,255,.1);
-
-    background:
-    rgba(0,0,0,.5);
-
-    color:#777;
-
-    cursor:pointer;
-
-    font-size:17px;
-
-    transition:.3s;
-}
-
-.favorite:hover{
-
-    transform:scale(1.1);
-
-    color:#ff4fd8;
-}
-
-.favorite.active{
-
-    color:#ff4fd8;
-
-    box-shadow:
-    0 0 20px
-    rgba(255,79,216,.25);
-}
-
-.game-card h3{
-
-    font-size:19px;
-
-    margin-bottom:8px;
-}
-
-.game-card p{
-
-    color:#7d8da3;
-
+    color:#68768a;
     font-size:13px;
-
-    line-height:1.6;
-
-    flex:1;
 }
 
-.game-info{
+/* ================= FEATURES ================= */
 
-    display:flex;
+.features{
+    width:min(1100px,100%);
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
 
-    justify-content:space-between;
+.card{
+    min-height:220px;
+    padding:24px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.035);
+    backdrop-filter:blur(12px);
+    transition:.35s;
+}
 
-    margin:
-    14px 0;
+.card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(94,231,255,.35);
+    box-shadow:0 15px 45px rgba(0,0,0,.35);
+}
 
+.card-icon{
+    font-size:30px;
+    margin-bottom:18px;
+}
+
+.card h3{
+    margin-bottom:10px;
+    font-size:18px;
+}
+
+.card p{
+    color:#78869b;
+    font-size:13px;
+    line-height:1.7;
+    min-height:55px;
+}
+
+.card .btn{
+    margin-top:15px;
+    padding:9px 18px;
     font-size:11px;
-
-    color:#63758c;
 }
 
-.game-category{
+/* ================= SYSTEM ================= */
 
-    color:#4de7ff;
+.system{
+    width:min(1100px,100%);
+    margin:auto;
 }
-
-.launch-btn{
-
-    width:100%;
-
-    padding:12px;
-
-    border:0;
-
-    border-radius:10px;
-
-    color:#fff;
-
-    font-weight:bold;
-
-    background:
-    linear-gradient(
-        90deg,
-        #245cff,
-        #9a3dff,
-        #e638d1
-    );
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-.launch-btn:hover{
-
-    transform:
-    translateY(-3px);
-
-    box-shadow:
-    0 8px 25px
-    rgba(100,80,255,.35);
-}
-
-/* =====================================================
-   NO RESULTS
-===================================================== */
-
-.no-results{
-
-    display:none;
-
-    text-align:center;
-
-    padding:60px 20px;
-
-    color:#65748a;
-}
-
-/* =====================================================
-   SYSTEM
-===================================================== */
 
 .terminal{
-
-    max-width:900px;
-
-    margin:auto;
-
-    padding:25px;
-
     background:#010207;
-
-    border:
-    1px solid #173b55;
-
+    border:1px solid rgba(94,231,255,.15);
     border-radius:18px;
-
-    font-family:monospace;
-
-    color:#55eaff;
-
-    box-shadow:
-    0 0 40px
-    rgba(30,200,255,.08);
+    overflow:hidden;
+    box-shadow:0 20px 70px rgba(0,0,0,.4);
 }
 
-#terminalText{
+.terminal-head{
+    padding:12px 15px;
+    background:#080b13;
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
 
+.dot{
+    display:inline-block;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    margin-right:5px;
+}
+
+.red{background:#ff5570;}
+.yellow{background:#ffd35e;}
+.green{background:#55e89c;}
+
+.terminal-body{
+    padding:22px;
+    color:#8feaff;
+    font-family:monospace;
+    font-size:12px;
     line-height:2;
 }
 
-/* =====================================================
-   FOOTER
-===================================================== */
+/* ================= CONNECT ================= */
+
+.connect{
+    text-align:center;
+}
+
+.connect p{
+    color:#68768a;
+    margin:12px 0 25px;
+}
+
+/* ================= FOOTER ================= */
 
 footer{
-
-    padding:
-    70px 20px 30px;
-
     text-align:center;
+    padding:70px 20px 30px;
+    border-top:1px solid rgba(255,255,255,.07);
+    background:rgba(0,0,0,.45);
+}
 
-    border-top:
-    1px solid
-    rgba(255,255,255,.1);
+.footer-orbit{
+    width:min(700px,90%);
+    height:120px;
+    margin:auto;
+    border:1px solid rgba(94,231,255,.12);
+    border-radius:50%;
+    animation:float 5s ease-in-out infinite;
+}
 
-    background:#010207;
+@keyframes float{
+    50%{
+        transform:translateY(-7px) scale(1.02);
+    }
 }
 
 .footer-logo{
-
-    font-size:30px;
-
+    font-size:28px;
     font-weight:bold;
-
     letter-spacing:6px;
-
-    color:#40eaff;
+    margin:25px 0 12px;
 }
 
-footer p{
-
-    color:#647286;
-
-    margin:18px 0;
+.footer-logo span{
+    color:#5ee7ff;
 }
 
-/* =====================================================
-   MODAL
-===================================================== */
-
-.modal{
-
-    position:fixed;
-
-    inset:0;
-
-    z-index:5000;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    padding:20px;
-
-    background:
-    rgba(0,0,0,.8);
-
-    backdrop-filter:blur(10px);
-
-    opacity:0;
-
-    visibility:hidden;
-
-    transition:.3s;
+.footer-text{
+    color:#667286;
+    font-size:12px;
 }
 
-.modal.show{
-
-    opacity:1;
-
-    visibility:visible;
+.footer-copy{
+    margin-top:20px;
+    color:#3f4959;
+    font-size:10px;
 }
 
-.modal-box{
-
-    width:
-    min(500px,100%);
-
-    padding:30px;
-
-    border-radius:22px;
-
-    border:
-    1px solid
-    rgba(70,220,255,.25);
-
-    background:
-    linear-gradient(
-        145deg,
-        #101426,
-        #03040b
-    );
-
-    box-shadow:
-    0 30px 100px
-    rgba(0,0,0,.6);
-
-    text-align:center;
-
-    transform:
-    scale(.9)
-    translateY(20px);
-
-    transition:.3s;
-}
-
-.modal.show .modal-box{
-
-    transform:
-    scale(1)
-    translateY(0);
-}
-
-.modal-icon{
-
-    font-size:70px;
-
-    margin-bottom:15px;
-}
-
-.modal-box h2{
-
-    margin-bottom:10px;
-}
-
-.modal-box p{
-
-    color:#8190a5;
-
-    line-height:1.7;
-
-    margin-bottom:25px;
-}
-
-.close-modal{
-
-    margin-top:10px;
-
-    padding:11px 20px;
-
-    border-radius:10px;
-
-    border:
-    1px solid
-    rgba(255,255,255,.1);
-
-    background:
-    rgba(255,255,255,.05);
-
-    color:#fff;
-
-    cursor:pointer;
-}
-
-/* =====================================================
-   TOP BUTTON
-===================================================== */
+/* ================= TOP BUTTON ================= */
 
 #top{
-
     position:fixed;
-
-    right:20px;
-    bottom:20px;
-
+    right:18px;
+    bottom:18px;
     width:45px;
     height:45px;
-
     border-radius:50%;
-
-    border:
-    1px solid
-    rgba(90,220,255,.3);
-
-    background:
-    rgba(10,15,30,.8);
-
-    color:#fff;
-
+    border:1px solid rgba(94,231,255,.25);
+    background:rgba(8,10,20,.8);
+    color:white;
     cursor:pointer;
-
-    display:none;
-
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
     z-index:900;
 }
 
-/* =====================================================
-   MOBILE
-===================================================== */
+#top.show{
+    opacity:1;
+    visibility:visible;
+}
 
-@media(max-width:700px){
+#top:hover{
+    transform:translateY(-4px);
+}
 
-    nav{
+/* ================= MOBILE ================= */
 
-        padding:
-        15px 20px;
-    }
+@media(max-width:800px){
 
     .nav-links{
-
-        gap:10px;
-    }
-
-    .nav-links a{
-
-        font-size:10px;
-    }
-
-    .games-panel{
-
-        padding:15px;
-    }
-
-    .game-grid{
-
-        grid-template-columns:
-        repeat(2,1fr);
-
         gap:12px;
     }
 
-    .game-card{
-
-        padding:14px;
-
-        min-height:270px;
+    .nav-links a{
+        font-size:10px;
     }
 
-    .game-image{
-
-        height:100px;
-
-        font-size:45px;
+    .features{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .game-card h3{
-
-        font-size:15px;
+    .black-hole{
+        width:350px;
+        height:350px;
     }
-
-    .game-card p{
-
-        font-size:11px;
-    }
-
-    .ring{
-
-        width:330px;
-        height:120px;
-    }
-
-    .blackhole{
-
-        width:220px;
-        height:220px;
-    }
-
 }
 
-</style>
+@media(max-width:520px){
 
+    .navbar{
+        padding:0 20px;
+    }
+
+    .logo{
+        font-size:16px;
+    }
+
+    .nav-links{
+        gap:9px;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        letter-spacing:6px;
+    }
+
+    .black-hole{
+        width:320px;
+        height:320px;
+    }
+}
+</style>
 </head>
 
 <body>
 
+<canvas id="spaceCanvas"></canvas>
+<div class="space-overlay"></div>
 
-<!-- =====================================================
-     SPACE
-===================================================== -->
+<!-- ================= NAVBAR ================= -->
 
-<div class="space" id="space">
-
-    <div class="ring"></div>
-
-    <div class="blackhole"></div>
-
-</div>
-
-
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
-
-<nav>
+<nav class="navbar" id="navbar">
 
     <a href="#home" class="logo">
-        ORB<span>I</span>T
+        ORB<span>IT</span>
     </a>
 
     <div class="nav-links">
-
         <a href="#home">Home</a>
-
-        <a href="#games">Games</a>
-
+        <a href="#features">Features</a>
         <a href="#system">System</a>
-
+        <a href="#contact">Contact</a>
     </div>
 
 </nav>
 
 
-<!-- =====================================================
-     HERO
-===================================================== -->
+<!-- ================= HERO ================= -->
 
 <section class="hero" id="home">
 
-    <h1>ORBIT</h1>
+    <div class="hero-content">
 
-    <p>
+        <div class="status">
+            <span class="status-dot"></span>
+            ORBIT SYSTEM ONLINE
+        </div>
 
-        Welcome to ORBIT — a futuristic digital
-        universe beyond the ordinary.
+        <h1>ORBIT</h1>
 
-    </p>
+        <p>
+            Welcome to ORBIT — a futuristic digital universe
+            built for exploration, creativity and next-generation
+            experiences.
+        </p>
 
-    <a href="#games" class="btn">
+        <div class="hero-buttons">
 
-        🎮 Explore Games
+            <a href="#features" class="btn btn-primary">
+                🚀 Explore ORBIT
+            </a>
 
-    </a>
+            <a href="#system" class="btn btn-outline">
+                ⚡ System Status
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="black-hole">
+
+        <div class="black-hole-core"></div>
+
+        <div class="ring"></div>
+
+        <div class="ring two"></div>
+
+    </div>
 
 </section>
 
 
-<!-- =====================================================
-     GAMES
-===================================================== -->
+<!-- ================= FEATURES ================= -->
 
-<section class="games-section" id="games">
+<section id="features">
 
     <div class="section-title">
 
-        <h2>ORBIT GAMES</h2>
+        <small>ORBIT MODULES</small>
+
+        <h2>ORBIT FEATURES</h2>
 
         <p>
-            Choose your mission and enter the digital universe.
+            Explore the systems inside the station.
         </p>
 
     </div>
 
 
-    <div class="games-panel">
+    <div class="features">
+
+        <!-- GAMES -->
+
+        <div class="card">
+
+            <div class="card-icon">🎮</div>
+
+            <h3>Games</h3>
+
+            <p>
+                Explore the ORBIT gaming universe.
+            </p>
+
+            <!-- IMPORTANT: Direct Games Page -->
+
+            <a href="games.html" class="btn btn-primary">
+                Open
+            </a>
+
+        </div>
 
 
-        <!-- TOOLBAR -->
+        <!-- NOTES -->
 
-        <div class="games-toolbar">
+        <div class="card">
+
+            <div class="card-icon">📝</div>
+
+            <h3>Notes</h3>
+
+            <p>
+                Create and manage your digital notes.
+            </p>
+
+            <a href="notes.html" class="btn btn-primary">
+                Open
+            </a>
+
+        </div>
 
 
-            <div class="search-box">
+        <!-- REQUEST -->
 
-                <input
-                    type="text"
-                    id="gameSearch"
-                    placeholder="🔎 Search games..."
-                >
+        <div class="card">
+
+            <div class="card-icon">📡</div>
+
+            <h3>Request</h3>
+
+            <p>
+                Send requests to the ORBIT system.
+            </p>
+
+            <a href="request.html" class="btn btn-primary">
+                Open
+            </a>
+
+        </div>
+
+
+        <!-- AI -->
+
+        <div class="card">
+
+            <div class="card-icon">🤖</div>
+
+            <h3>AI System</h3>
+
+            <p>
+                Interact with futuristic digital systems.
+            </p>
+
+            <a href="ai.html" class="btn btn-primary">
+                Open
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SYSTEM ================= -->
+
+<section id="system">
+
+    <div class="section-title">
+
+        <small>CORE MONITOR</small>
+
+        <h2>SYSTEM STATUS</h2>
+
+        <p>
+            ORBIT central system monitoring.
+        </p>
+
+    </div>
+
+
+    <div class="system">
+
+        <div class="terminal">
+
+            <div class="terminal-head">
+
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
 
             </div>
 
 
-            <div class="filter-buttons">
+            <div class="terminal-body">
 
-                <button
-                    class="filter-btn active"
-                    data-category="All">
+                &gt; ORBIT CORE INITIALIZING...<br>
 
-                    All
+                &gt; Connecting to deep space network...<br>
 
-                </button>
+                &gt; Scanning nearby systems...<br>
 
-                <button
-                    class="filter-btn"
-                    data-category="Action">
+                &gt; Quantum gateway: <b>ONLINE</b><br>
 
-                    Action
+                &gt; Navigation system: <b>ONLINE</b><br>
 
-                </button>
+                &gt; Artificial intelligence: <b>ONLINE</b><br>
 
-                <button
-                    class="filter-btn"
-                    data-category="Arcade">
+                &gt; Black hole containment: <b>STABLE</b><br>
 
-                    Arcade
+                &gt; All systems operational.<br>
 
-                </button>
+                &gt; Welcome, explorer.<br>
 
-                <button
-                    class="filter-btn"
-                    data-category="Puzzle">
+                <br>
 
-                    Puzzle
-
-                </button>
-
-                <button
-                    class="filter-btn"
-                    data-category="Strategy">
-
-                    Strategy
-
-                </button>
+                &gt; <span id="typing"></span>
 
             </div>
 
         </div>
 
+    </div>
 
-        <!-- RANDOM -->
+</section>
 
-        <div class="random-area">
 
-            <button
-                class="btn"
-                onclick="randomGame()">
+<!-- ================= CONTACT ================= -->
 
-                🎲 Random Mission
+<section id="contact" class="connect">
 
-            </button>
+    <div class="section-title">
 
-        </div>
+        <small>DEEP SPACE CONNECTION</small>
 
+        <h2>CONNECT</h2>
 
-        <!-- GAME GRID -->
+        <p>
+            Welcome to the next generation.
+        </p>
 
-        <div
-            class="game-grid"
-            id="gameGrid">
+    </div>
 
+    <a href="mailto:orbit@example.com" class="btn btn-primary">
+        📡 Enter ORBIT
+    </a>
 
-            <!-- GAME 1 -->
+</section>
 
-            <div
-                class="game-card"
-                data-name="Space Runner"
-                data-category="Arcade">
 
-                <button
-                    class="favorite"
-                    onclick="toggleFavorite(this,'Space Runner')">
+<!-- ================= FOOTER ================= -->
 
-                    ★
+<footer>
 
-                </button>
+    <div class="footer-orbit"></div>
 
-                <div class="game-image">
-                    🚀
-                </div>
+    <div class="footer-logo">
+        ORB<span>IT</span>
+    </div>
 
-                <h3>Space Runner</h3>
+    <div class="footer-text">
+        Beyond the Ordinary • Into the Unknown
+    </div>
 
-                <p>
-                    Navigate through deep space
-                    and survive the cosmic storm.
-                </p>
+    <div class="footer-copy">
+        © 2026 ORBIT. All systems operational.
+    </div>
 
-                <div class="game-info">
+</footer>
 
-                    <span class="game-category">
-                        Arcade
-                    </span>
 
-                    <span>
-                        ⭐ 4.8
-                    </span>
+<!-- ================= TOP BUTTON ================= -->
 
-                </div>
+<button id="top">↑</button>
 
-                <button
-                    class="launch-btn"
-                    onclick="launchGame('Space Runner','🚀')">
 
-                    🚀 LAUNCH
+<script>
 
-                </button>
+/* ================= STAR FIELD ================= */
 
-            </div>
+const canvas = document.getElementById("spaceCanvas");
+const ctx = canvas.getContext("2d");
 
+let stars = [];
+let width;
+let height;
 
-            <!-- GAME 2 -->
+function resizeCanvas(){
 
-            <div
-                class="game-card"
-                data-name="Galaxy Strike"
-                data-category="Action">
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
 
-                <button
-                    class="favorite"
-                    onclick="toggleFavorite(this,'Galaxy Strike')">
+    stars = [];
 
-                    ★
+    const count = Math.min(
+        180,
+        Math.floor((width * height) / 6000)
+    );
 
-                </button>
+    for(let i = 0; i < count; i++){
 
-                <div class="game-image">
-                    👾
-                </div>
+        stars.push({
 
-                <h3>Galaxy Strike</h3>
+            x:Math.random() * width,
 
-                <p>
-                    Defend the galaxy from unknown
-                    cosmic invaders.
-                </p>
+            y:Math.random() * height,
 
-                <div class="game-info">
+            size:Math.random() * 1.5 + .3,
 
-                    <span class="game-category">
-                        Action
-                    </span>
+            speed:Math.random() * .25 + .05,
 
-                    <span>
-                        ⭐ 4.9
-                    </span>
+            alpha:Math.random() * .8 + .2
 
-                </div>
+        });
 
-                <button
-                    class="launch-btn"
-                    onclick="launchGame('Galaxy Strike','👾')">
+    }
 
-                    🚀 LAUNCH
+}
 
-                </button>
+function drawStars(){
 
-            </div>
+    ctx.clearRect(0,0,width,height);
 
+    for(const star of stars){
 
-            <!-- GAME 3 -->
+        star.y += star.speed;
 
-            <div
-                class="game-card"
-                data-name="Quantum Puzzle"
-                data-category="Puzzle">
+        if(star.y > height){
+            star.y = 0;
+            star.x = Math.random() * width;
+        }
 
-                <button
-                    class="favorite"
-                    onclick="toggleFavorite(this,'Quantum Puzzle')">
+        ctx.beginPath();
 
-                    ★
+        ctx.fillStyle =
+            "rgba(255,255,255," +
+            star.alpha +
+            ")";
 
-                </button>
+        ctx.arc(
+            star.x,
+            star.y,
+            star.size,
+            0,
+            Math.PI * 2
+        );
 
-                <div class="game-image">
-                    🧩
-                </div>
+        ctx.fill();
 
-                <h3>Quantum Puzzle</h3>
+    }
 
-                <p>
-                    Solve mysterious quantum
-                    puzzles hidden inside the system.
-                </p>
+    requestAnimationFrame(drawStars);
 
-                <div class="game-info">
+}
 
-                    <span class="game-category">
-                        Puzzle
-                    </span>
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
 
-                    <span>
-                        ⭐ 4.7
-                    </span>
+resizeCanvas();
+drawStars();
 
-                </div>
 
-                <button
-                    class="launch-btn"
-                    onclick="launchGame('Quantum Puzzle','🧩')">
+/* ================= NAVBAR ================= */
 
-                    🚀 LAUNCH
+const navbar =
+    document.getElementById("navbar");
 
-                </button>
+const topButton =
+    document.getElementById("top");
 
-            </div>
+window.addEventListener("scroll",function(){
 
+    if(window.scrollY > 80){
 
-            <!-- GAME 4 -->
+        navbar.classList.add("scrolled");
 
-            <div
-                class="game-card"
-                data-name="Planet Commander"
-                data-category="Strategy">
+        topButton.classList.add("show");
 
-                <button
-                    class="favorite"
-                    onclick="toggleFavorite(this,'Planet Commander')">
+    }else{
 
-                    ★
+        navbar.classList.remove("scrolled");
 
-                </button>
+        topButton.classList.remove("show");
 
-                <div class="game-image">
-                    🪐
-                </div>
+    }
 
-                <h3>Planet Commander</h3>
+});
 
-                <p>
-                    Build your civilization and
-                    control the outer planets.
-                </p>
 
-                <div class="game-info">
+/* ================= TOP BUTTON ================= */
 
-                    <span class="game-category">
-                        Strategy
-                    </span>
+topButton.addEventListener(
+    "click",
+    function(){
 
-                    <span>
-                        ⭐ 4.9
-     
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }
+);
+
+
+/* ================= TYPING EFFECT ================= */
+
+const typing =
+    document.getElementById("typing");
+
+const messages = [
+    "Awaiting explorer commands...",
+    "ORBIT is ready.",
+    "All modules connected.",
+    "Deep space network stable."
+];
+
+let messageIndex = 0;
+let characterIndex = 0;
+
+function typeMessage(){
+
+    const message =
+        messages[messageIndex];
+
+    if(characterIndex < message.length){
+
+        typing.textContent +=
+            message.charAt(characterIndex);
+
+        characterIndex++;
+
+        setTimeout(
+            typeMessage,
+            65
+        );
+
+    }else{
+
+        setTimeout(
+            eraseMessage,
+            1800
+        );
+
+    }
+
+}
+
+function eraseMessage(){
+
+    if(characterIndex > 0){
+
+        typing.textContent =
+            typing.textContent.slice(
+                0,
+                -1
+            );
+
+        characterIndex--;
+
+        setTimeout(
+            eraseMessage,
+            35
+        );
+
+    }else{
+
+        messageIndex =
+            (messageIndex + 1) %
+            messages.length;
+
+        setTimeout(
+            typeMessage,
+            400
+        );
+
+    }
+
+}
+
+typeMessage();
+
+
+/* ================= BUTTON RIPPLE ================= */
+
+document
+.querySelectorAll(".btn")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        function(event){
+
+            const ripple =
+                document.createElement("span");
+
+            ripple.style.position =
+                "absolute";
+
+            ripple.style.width = "20px";
+
+            ripple.style.height = "20px";
+
+            ripple.style.borderRadius = "50%";
+
+            ripple.style.background =
+                "rgba(255,255,255,.3)";
+
+            ripple.style.left =
+                event.offsetX - 10 + "px";
+
+            ripple.style.top =
+                event.offsetY - 10 + "px";
+
+            ripple.style.pointerEvents =
+                "none";
+
+            ripple.animate(
+                [
+                    {
+                        transform:"scale(0)",
+                        opacity:1
+                    },
+                    {
+                        transform:"scale(10)",
+                        opacity:0
+                    }
+                ],
+                {
+                    duration:600
+                }
+            );
+
+            this.appendChild(ripple);
+
+            setTimeout(
+                () => ripple.remove(),
+                600
+            );
+
+        }
+    );
+
+});
+
+
+/* ================= MOUSE PARALLAX ================= */
+
+document.addEventListener(
+    "mousemove",
+    function(e){
+
+        const x =
+            (e.clientX / window.innerWidth - .5);
+
+        const y =
+            (e.clientY / window.innerHeight - .5);
+
+        const hole =
+            document.querySelector(".black-hole");
+
+        hole.style.transform =
+            `translate(
+                calc(-50% + ${x * 20}px),
+                calc(-50% + ${y * 20}px)
+            )`;
+
+    }
+);
+
+</script>
+
+</body>
+   </html>
