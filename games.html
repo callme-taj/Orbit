@@ -1,8 +1,418 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ORBIT Games</title><link rel="stylesheet" href="styles.css"></head><body><canvas id="spaceCanvas"></canvas><div class="space-vignette"></div><header class="navbar"><a class="brand" href="index.html">ORB<span>IT</span></a><button class="menu-btn" id="menuBtn">☰</button><nav class="nav-links" id="navLinks"><a href="index.html">Home</a><a class="active" href="games.html">Games</a><a href="notes.html">Notes</a><a href="files.html">Files</a><a href="social.html">Social</a><a href="request.html">Request</a><a href="about.html">About</a><a href="login.html">Login</a></nav></header><main><section class="page-hero reveal"><h1>GAME SECTOR</h1><p>Search, filter and launch the games currently listed in your ORBIT interface.</p></section><section class="section"><div class="container"><div class="toolbar reveal"><input class="search" id="gameSearch" placeholder="Search games..."><div class="filters"><button class="filter active" data-cat="all">All</button><button class="filter" data-cat="Arcade">Arcade</button><button class="filter" data-cat="Puzzle">Puzzle</button><button class="filter" data-cat="Strategy">Strategy</button></div></div><div class="actions" style="justify-content:flex-start;margin:0 0 18px"><button class="btn" id="randomGame">🎲 Random Mission</button></div><div class="game-grid" id="gameGrid"></div><div id="noGames" style="display:none;text-align:center;color:#738197;padding:40px">No matching games found.</div></div></section></main><footer><div class="footer-orbit"></div><div class="footer-brand">ORB<span>IT</span></div><div class="footer-links"><a href="index.html">Home</a><a href="social.html">Social</a><a href="request.html">Request</a></div><div class="footer-copy">Game Sector • ORBIT</div></footer><button id="topBtn">↑</button><div id="modal"><div class="modal-card"><div class="modal-head"><h3 id="modalTitle"></h3><button class="close" id="closeModal">✕</button></div><div class="modal-body" id="modalBody"></div></div></div><script src="app.js"></script><script>
-const games=[
- {n:'Space Runner',c:'Arcade',i:'🚀',d:'Navigate a cosmic track and dodge hazards.'},{n:'Quantum Puzzle',c:'Puzzle',i:'🧩',d:'Solve glowing logic challenges.'},{n:'Planet Commander',c:'Strategy',i:'🪐',d:'Plan missions across distant worlds.'},{n:'Meteor Rush',c:'Arcade',i:'☄️',d:'Avoid incoming meteors and survive.'},{n:'Star Maze',c:'Puzzle',i:'🌟',d:'Find the path through an evolving star maze.'},{n:'Galaxy Architect',c:'Strategy',i:'🌌',d:'Design a small interstellar civilization.'},{n:'Neon Orbit',c:'Arcade',i:'💫',d:'Keep your ship inside the orbital corridor.'},{n:'Signal Decode',c:'Puzzle',i:'📡',d:'Decode mysterious deep-space signals.'}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#02030a">
+<title>ORBIT — Games</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Games page-specific styles */
+.games-page{position:relative;z-index:2}
+.games-hero{min-height:62vh;padding:145px 5% 70px;display:flex;align-items:center;justify-content:center;text-align:center}
+.games-inner{width:min(1000px,100%);margin:auto}
+.games-inner .pill{display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border:1px solid rgba(94,231,255,.18);border-radius:50px;background:rgba(94,231,255,.05);color:#a3eaff;font-size:12px;letter-spacing:1px}
+.games-inner .dot{width:8px;height:8px;border-radius:50%;background:#55ffb1;box-shadow:0 0 14px #55ffb1}
+.games-inner h1{font-size:clamp(48px,9vw,92px);letter-spacing:7px;margin:22px 0 14px;background:linear-gradient(90deg,#fff,#70e8ff,#a56bff,#ff68dc,#fff);background-size:300% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gameTextFlow 7s linear infinite}
+@keyframes gameTextFlow{to{background-position:300% center}}
+.games-inner p{max-width:720px;margin:auto;color:#8b9ab0;line-height:1.8}
+.games-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:35px auto 0}
+.game-stat{padding:17px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035);border-radius:16px;backdrop-filter:blur(10px)}
+.game-stat b{display:block;font-size:25px}.game-stat span{display:block;margin-top:5px;color:#718197;font-size:11px;letter-spacing:1.2px;text-transform:uppercase}
+.games-section{padding:30px 5% 100px}.games-container{width:min(1180px,100%);margin:auto}
+.game-toolbar{padding:20px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:rgba(255,255,255,.035);backdrop-filter:blur(14px);margin-bottom:25px}
+.game-controls{display:grid;grid-template-columns:1.5fr .65fr auto;gap:10px}
+.game-search,.game-select{width:100%;border:1px solid rgba(94,231,255,.14);outline:none;background:rgba(0,0,0,.3);color:#fff;border-radius:12px;padding:14px 15px;font-size:14px}
+.game-select option{background:#080b14;color:#fff}
+.game-search:focus,.game-select:focus{border-color:rgba(94,231,255,.5);box-shadow:0 0 0 3px rgba(94,231,255,.05)}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.filter-btn{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.035);color:#8b9ab0;border-radius:999px;padding:9px 13px;cursor:pointer;transition:.25s}
+.filter-btn:hover,.filter-btn.active{color:#fff;border-color:rgba(94,231,255,.35);background:rgba(94,231,255,.08);transform:translateY(-2px)}
+.games-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.game-card{position:relative;overflow:hidden;min-height:260px;padding:20px;border:1px solid rgba(255,255,255,.1);border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025));transition:.35s;transform-style:preserve-3d}
+.game-card:hover{transform:translateY(-7px) rotateX(2deg) rotateY(-2deg);border-color:rgba(94,231,255,.28);box-shadow:0 20px 50px rgba(0,0,0,.35),0 0 30px rgba(94,231,255,.07)}
+.game-card.hidden{display:none}
+.game-icon{height:95px;display:grid;place-items:center;font-size:48px;border-radius:16px;background:radial-gradient(circle at center,rgba(94,231,255,.12),transparent 68%);border:1px solid rgba(255,255,255,.06);margin-bottom:15px}
+.game-card h3{font-size:17px;margin-bottom:6px}.game-card p{color:#718197;font-size:12px;line-height:1.6;min-height:38px}
+.game-meta{display:flex;justify-content:space-between;align-items:center;margin:12px 0;font-size:10px;color:#65758a;text-transform:uppercase;letter-spacing:1px}
+.game-actions{display:flex;gap:7px}.game-launch,.fav-btn{flex:1;border:0;cursor:pointer;border-radius:10px;padding:10px;color:#fff;font-weight:700;transition:.25s}
+.game-launch{background:linear-gradient(135deg,#246bfd,#8a46ff,#e54edc);background-size:200% 200%;animation:gameGradient 4s ease infinite}
+@keyframes gameGradient{50%{background-position:100% 50%}}
+.game-launch:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(110,100,255,.25)}
+.fav-btn{max-width:44px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.fav-btn.active{color:#ffd35e;border-color:rgba(255,211,94,.3);background:rgba(255,211,94,.08)}
+.empty-games{display:none;text-align:center;padding:50px;color:#718197;border:1px dashed rgba(255,255,255,.1);border-radius:18px}
+.empty-games.show{display:block}
+.game-note{margin-top:15px;color:#536277;font-size:11px;line-height:1.6}
+@media(max-width:950px){.games-grid{grid-template-columns:repeat(3,1fr)}.games-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.game-controls{grid-template-columns:1fr}.games-grid{grid-template-columns:repeat(2,1fr)}.games-hero{min-height:58vh;padding-top:125px}}
+@media(max-width:480px){.games-grid{grid-template-columns:1fr}.games-stats{grid-template-columns:1fr 1fr}.game-card{min-height:245px}}
+</style>
+</head>
+<body data-page="games">
+
+<canvas id="spaceCanvas"></canvas>
+<div class="space-vignette"></div>
+
+<header class="navbar">
+  <a class="brand" href="index.html">ORB<span>IT</span></a>
+  <button class="menu-btn" id="menuBtn">☰</button>
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a class="active" href="games.html">Games</a>
+    <a href="notes.html">Notes</a>
+    <a href="files.html">Files</a>
+    <a href="social.html">Social</a>
+    <a href="request.html">Request</a>
+    <a href="about.html">About</a>
+    <a href="login.html">Login</a>
+  </nav>
+</header>
+
+<main class="games-page">
+<section class="games-hero">
+  <div class="games-inner reveal">
+    <div class="pill"><span class="dot"></span> ORBIT GAME DECK ONLINE</div>
+    <h1>GAME STATION</h1>
+    <p>Explore the ORBIT game deck. Search, filter, favorite and launch games from one futuristic control panel. The deck is ready to grow with your own game links.</p>
+    <div class="games-stats">
+      <div class="game-stat"><b id="totalGames">0</b><span>Total Games</span></div>
+      <div class="game-stat"><b id="visibleGames">0</b><span>Showing</span></div>
+      <div class="game-stat"><b id="favoriteCount">0</b><span>Favorites</span></div>
+      <div class="game-stat"><b>ONLINE</b><span>Game Core</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="games-section">
+<div class="games-container">
+  <div class="game-toolbar reveal">
+    <div class="game-controls">
+      <input id="gameSearch" class="game-search" type="search" placeholder="🔍 Search games...">
+      <select id="sortGames" class="game-select" aria-label="Sort games">
+        <option value="name">Sort: Name</option>
+        <option value="category">Sort: Category</option>
+        <option value="favorite">Sort: Favorites</option>
+      </select>
+      <button id="clearFavorites" class="btn ghost" type="button">Reset Favorites</button>
+    </div>
+    <div class="filter-row" id="filters">
+      <button class="filter-btn active" data-category="all">All</button>
+      <button class="filter-btn" data-category="arcade">Arcade</button>
+      <button class="filter-btn" data-category="puzzle">Puzzle</button>
+      <button class="filter-btn" data-category="action">Action</button>
+      <button class="filter-btn" data-category="strategy">Strategy</button>
+      <button class="filter-btn" data-category="racing">Racing</button>
+      <button class="filter-btn" data-category="casual">Casual</button>
+    </div>
+    <div class="game-note">Favorites are saved locally in your browser. Launch buttons currently open demo destinations; you can replace the links with real game URLs later.</div>
+  </div>
+
+  <div id="gamesGrid" class="games-grid"></div>
+  <div id="emptyGames" class="empty-games">No games match your search or filter. Try another category.</div>
+</div>
+</section>
+</main>
+
+<footer>
+  <div class="footer-orbit"></div>
+  <div class="footer-brand">ORB<span>IT</span></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a><a href="notes.html">Notes</a><a href="files.html">Files</a>
+    <a href="social.html">Social</a><a href="request.html">Request</a><a href="about.html">About</a>
+  </div>
+  <div class="footer-copy">ORBIT Game Station • Built for exploration</div>
+</footer>
+
+<button id="topBtn" aria-label="Back to top">↑</button>
+
+<script>
+/* =========================================================
+   ORBIT GAMES DATA
+   Replace any demo URL with a real game URL when ready.
+========================================================= */
+const games = [
+  ["Nova Drift","arcade","🚀","Space arcade mission.","https://example.com/"],
+  ["Neon Blocks","puzzle","🧩","Fast neon block puzzle.","https://example.com/"],
+  ["Orbit Runner","action","🏃","Dodge hazards through space.","https://example.com/"],
+  ["Galaxy Tactics","strategy","♟️","Plan your next cosmic move.","https://example.com/"],
+  ["Star Racer","racing","🏎️","Race through a star field.","https://example.com/"],
+  ["Cosmic Match","casual","🌌","Relaxing cosmic matching game.","https://example.com/"],
+  ["Astro Defender","action","🛡️","Protect the ORBIT from invaders.","https://example.com/"],
+  ["Quantum Tiles","puzzle","🔷","Solve shifting quantum tiles.","https://example.com/"],
+  ["Meteor Rush","arcade","☄️","Survive an incoming meteor storm.","https://example.com/"],
+  ["Planet Pilot","casual","🪐","Guide your ship around planets.","https://example.com/"],
+  ["Void Racer","racing","🏁","High-speed racing in the void.","https://example.com/"],
+  ["Command Orbit","strategy","🛰️","Build and manage a space fleet.","https://example.com/"],
+  ["Laser Grid","puzzle","🔦","Find the perfect laser path.","https://example.com/"],
+  ["Cyber Strike","action","⚡","Fast futuristic combat challenge.","https://example.com/"],
+  ["Pixel Cosmos","arcade","👾","Classic-style cosmic arcade fun.","https://example.com/"],
+  ["Moon Hopper","casual","🌙","Hop across a strange lunar world.","https://example.com/"],
+  ["Rocket Rally","racing","🚀","Rocket-powered racing action.","https://example.com/"],
+  ["Star Chess","strategy","♟️","A tactical game among the stars.","https://example.com/"],
+  ["Gravity Lab","puzzle","🧲","Master gravity to solve levels.","https://example.com/"],
+  ["Alien Breaker","arcade","👽","Break through alien defenses.","https://example.com/"],
+  ["Photon Dash","action","💫","Dash through a photon maze.","https://example.com/"],
+  ["Cosmic Cards","casual","🃏","Collect and match cosmic cards.","https://example.com/"],
+  ["Asteroid Circuit","racing","🌠","Race around asteroid fields.","https://example.com/"],
+  ["Planet Wars","strategy","🌍","Command planets and expand your fleet.","https://example.com/"]
 ];
-const grid=document.getElementById('gameGrid'); const search=document.getElementById('gameSearch'); let cat='all';
-function render(){const q=search.value.trim().toLowerCase();let list=games.filter(g=>(cat==='all'||g.c===cat)&&(`${g.n} ${g.d}`.toLowerCase().includes(q)));grid.innerHTML=list.map((g,i)=>`<article class="game reveal active"><div class="game-cover">${g.i}</div><h3>${g.n}</h3><p>${g.d}</p><div class="game-meta"><span>${g.c}</span><span>⭐ ${(4.6+i%4/10).toFixed(1)}</span></div><button class="btn" onclick="launch('${g.n}','${g.i}')">🚀 Launch</button></article>`).join('');document.getElementById('noGames').style.display=list.length?'none':'block'}
-function launch(name,icon){openModal(name,`<div style="font-size:44px;margin-bottom:10px">${icon}</div><p>Mission interface ready for <b>${name}</b>. This demo launch button is wired to the ORBIT frontend. Replace the launch action later with the URL or embedded game you want to use.</p><button class="btn" onclick="closeModal();toast('Mission launched: ${name.replace(/'/g,'')}')">Start</button>`)}
-search.addEventListener('input',render); document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');cat=b.dataset.cat;render()}));document.getElementById('randomGame').addEventListener('click',()=>{const g=games[Math.floor(Math.random()*games.length)];launch(g.n,g.i)});render();</script></body></html>
+
+const grid = document.getElementById("gamesGrid");
+const search = document.getElementById("gameSearch");
+const sortSelect = document.getElementById("sortGames");
+const filters = document.getElementById("filters");
+const empty = document.getElementById("emptyGames");
+const totalGames = document.getElementById("totalGames");
+const visibleGames = document.getElementById("visibleGames");
+const favoriteCount = document.getElementById("favoriteCount");
+
+let activeCategory = "all";
+let favorites = JSON.parse(localStorage.getItem("orbitGameFavorites") || "[]");
+
+function saveFavorites(){
+  localStorage.setItem("orbitGameFavorites", JSON.stringify(favorites));
+}
+
+function isFavorite(name){
+  return favorites.includes(name);
+}
+
+function toggleFavorite(name){
+  if(isFavorite(name)){
+    favorites = favorites.filter(x => x !== name);
+  }else{
+    favorites.push(name);
+  }
+  saveFavorites();
+  renderGames();
+}
+
+function createGameCard(game){
+  const [name, category, icon, description, url] = game;
+  const card = document.createElement("article");
+  card.className = "game-card reveal";
+  card.dataset.category = category;
+  card.dataset.name = name.toLowerCase();
+
+  card.innerHTML = `
+    <div class="game-icon">${icon}</div>
+    <h3>${name}</h3>
+    <p>${description}</p>
+    <div class="game-meta">
+      <span>${category}</span>
+      <span>ORBIT</span>
+    </div>
+    <div class="game-actions">
+      <button class="game-launch" type="button">🚀 Launch</button>
+      <button class="fav-btn ${isFavorite(name) ? "active" : ""}" type="button" title="Favorite">${isFavorite(name) ? "★" : "☆"}</button>
+    </div>
+  `;
+
+  const launch = card.querySelector(".game-launch");
+  const fav = card.querySelector(".fav-btn");
+
+  launch.addEventListener("click", () => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  });
+
+  fav.addEventListener("click", () => toggleFavorite(name));
+
+  return card;
+}
+
+function renderGames(){
+  grid.innerHTML = "";
+
+  let list = [...games];
+
+  const query = search.value.trim().toLowerCase();
+
+  if(activeCategory !== "all"){
+    list = list.filter(g => g[1] === activeCategory);
+  }
+
+  if(query){
+    list = list.filter(g =>
+      g[0].toLowerCase().includes(query) ||
+      g[1].toLowerCase().includes(query) ||
+      g[3].toLowerCase().includes(query)
+    );
+  }
+
+  if(sortSelect.value === "name"){
+    list.sort((a,b) => a[0].localeCompare(b[0]));
+  }else if(sortSelect.value === "category"){
+    list.sort((a,b) => a[1].localeCompare(b[1]) || a[0].localeCompare(b[0]));
+  }else if(sortSelect.value === "favorite"){
+    list.sort((a,b) => Number(isFavorite(b[0])) - Number(isFavorite(a[0])));
+  }
+
+  list.forEach(game => grid.appendChild(createGameCard(game)));
+
+  totalGames.textContent = games.length;
+  visibleGames.textContent = list.length;
+  favoriteCount.textContent = favorites.length;
+  empty.classList.toggle("show", list.length === 0);
+
+  requestAnimationFrame(() => {
+    grid.querySelectorAll(".reveal").forEach(el => el.classList.add("active"));
+  });
+}
+
+search.addEventListener("input", renderGames);
+sortSelect.addEventListener("change", renderGames);
+
+filters.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    filters.querySelectorAll(".filter-btn").forEach(x => x.classList.remove("active"));
+    btn.classList.add("active");
+    activeCategory = btn.dataset.category;
+    renderGames();
+  });
+});
+
+document.getElementById("clearFavorites").addEventListener("click", () => {
+  favorites = [];
+  saveFavorites();
+  renderGames();
+});
+
+/* Mobile navigation */
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+menuBtn.addEventListener("click", () => navLinks.classList.toggle("open"));
+navLinks.querySelectorAll("a").forEach(a => {
+  a.addEventListener("click", () => navLinks.classList.remove("open"));
+});
+
+/* Scroll reveal */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) entry.target.classList.add("active");
+  });
+},{threshold:.12});
+
+document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+/* Back to top */
+const topBtn = document.getElementById("topBtn");
+window.addEventListener("scroll", () => {
+  topBtn.classList.toggle("show", scrollY > 500);
+});
+topBtn.addEventListener("click", () => scrollTo({top:0,behavior:"smooth"}));
+
+/* Space background */
+const canvas = document.getElementById("spaceCanvas");
+const ctx = canvas.getContext("2d");
+let stars = [];
+let particles = [];
+
+function createSpace(){
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  canvas.width = innerWidth * dpr;
+  canvas.height = innerHeight * dpr;
+  canvas.style.width = innerWidth + "px";
+  canvas.style.height = innerHeight + "px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+
+  stars = [];
+  particles = [];
+
+  for(let i=0;i<Math.min(240,Math.floor(innerWidth*.22));i++){
+    stars.push({
+      x:Math.random()*innerWidth,
+      y:Math.random()*innerHeight,
+      r:Math.random()*1.5+.2,
+      a:Math.random()*.8+.15,
+      speed:Math.random()*.25+.03
+    });
+  }
+
+  for(let i=0;i<70;i++){
+    particles.push({
+      angle:Math.random()*Math.PI*2,
+      radius:90+Math.random()*230,
+      speed:.001+Math.random()*.004,
+      size:Math.random()*1.5+.4
+    });
+  }
+}
+
+function drawSpace(){
+  const w=innerWidth,h=innerHeight;
+  ctx.clearRect(0,0,w,h);
+
+  const bg=ctx.createRadialGradient(w*.5,h*.45,10,w*.5,h*.45,Math.max(w,h)*.8);
+  bg.addColorStop(0,"#100b20");
+  bg.addColorStop(.35,"#050716");
+  bg.addColorStop(1,"#010208");
+  ctx.fillStyle=bg;
+  ctx.fillRect(0,0,w,h);
+
+  stars.forEach(s=>{
+    s.y+=s.speed;
+    if(s.y>h+3)s.y=-3;
+    ctx.globalAlpha=s.a;
+    ctx.fillStyle="#b9eaff";
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fill();
+  });
+
+  const cx=w*.5,cy=h*.43,scale=Math.min(w,h)/900;
+  ctx.save();
+  ctx.translate(cx,cy);
+
+  ctx.globalAlpha=.3;
+  ctx.shadowBlur=60*scale;
+  ctx.shadowColor="#8c42ff";
+  ctx.strokeStyle="#4ccfff";
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.ellipse(0,0,230*scale,78*scale,-.15,0,Math.PI*2);
+  ctx.stroke();
+
+  ctx.globalAlpha=.2;
+  ctx.strokeStyle="#ff4fd8";
+  ctx.lineWidth=7;
+  ctx.beginPath();
+  ctx.ellipse(0,0,180*scale,55*scale,.15,0,Math.PI*2);
+  ctx.stroke();
+
+  const hole=ctx.createRadialGradient(0,0,5,0,0,125*scale);
+  hole.addColorStop(0,"#000");
+  hole.addColorStop(.55,"#000");
+  hole.addColorStop(.78,"rgba(50,20,90,.7)");
+  hole.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.globalAlpha=1;
+  ctx.fillStyle=hole;
+  ctx.beginPath();
+  ctx.arc(0,0,125*scale,0,Math.PI*2);
+  ctx.fill();
+
+  particles.forEach(p=>{
+    p.angle+=p.speed;
+    const x=Math.cos(p.angle)*p.radius*scale;
+    const y=Math.sin(p.angle)*p.radius*scale*.32;
+    ctx.globalAlpha=.35;
+    ctx.fillStyle="#72eaff";
+    ctx.beginPath();
+    ctx.arc(x,y,p.size,0,Math.PI*2);
+    ctx.fill();
+  });
+
+  ctx.restore();
+  ctx.globalAlpha=1;
+  requestAnimationFrame(drawSpace);
+}
+
+addEventListener("resize",createSpace);
+createSpace();
+drawSpace();
+
+renderGames();
+</script>
+</body>
+</html>
